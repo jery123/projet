@@ -1,0 +1,68 @@
+<template>
+  <div>
+    <md-table v-model="users" :table-header-color="tableHeaderColor"  > 
+      <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-cell md-label="Nom">{{ item.nom }}</md-table-cell>
+        <md-table-cell md-label="Email">{{ item.email }}</md-table-cell>
+        <md-table-cell md-label="Ville">{{ item.ville }}</md-table-cell>
+        <md-table-cell md-label="Telephone">{{ item.telephone }}</md-table-cell>
+      </md-table-row>  
+    </md-table>
+     
+</div>
+</template>
+
+<script>
+import axios from 'axios';
+export default {
+  name: "simple-table",
+ props: {
+    tableHeaderColor: {
+      type: String,
+      default: ""
+    }
+  },
+ data() {
+    return {
+      
+      users: [
+    //      {
+        
+    //     "nom": "pop",
+    //     "email": "pop@gmail.com",
+    //     "ville": "douala\r\n",
+    //     "telephone": 650515253,
+       
+    // },
+    // {
+        
+    //     "nom": "franck",
+    //     "userName": "prope",
+    //     "email": "franch.edouade@gmail.com",
+    //     "ville": "Bertoua",
+    //     "telephone": 640414243,
+       
+    // },
+    // {
+       
+    //     "nom": "kenfack",
+    //     "userName": "Yemalé",
+    //     "email": "kenfack.dadi@gmail.com",
+    //     "ville": "dschang",
+    //     "telephone": 670717273,
+       
+    // }
+      ],
+    };
+  },
+   mounted() {
+  axios
+  .get('http://localhost:8083/api/users')
+  .then(function (response) { this.users = response.data })
+  .catch(function (error){
+    console.log(error);
+  })
+     }
+
+};
+</script>
