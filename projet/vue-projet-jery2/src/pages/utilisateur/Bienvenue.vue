@@ -342,7 +342,12 @@ import ClientDataService from "../../services/ClientDataService";
 
 export default {
   name: "bienvenue",
-  
+   props: {
+    dataBackgroundColor: {
+      type: String,
+      default: ""
+    }
+  },  
   data() {
     return {
       farmer: {
@@ -441,7 +446,8 @@ export default {
 
 
 
-<style>
+<style lang="scss">
+
 #prodRegis , form{
   color: #000;
   font-family: 'Times New Roman', Times, serif;
@@ -691,14 +697,15 @@ a:hover {
 }
 
 .navbar a, .navbar a:focus {
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
   font-family: "Raleway", Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  /* color: rgba(255, 255, 255, 0.8); */
+  Color: #818181;
   white-space: nowrap;
   transition: 0.3s;
 }

@@ -29,7 +29,7 @@ class ProduitDataService {
     return http.get(`/produits?nom=${nom}`);
   }
   findAllPublished() {
-    return http.get(`/produits?published=0`);
+    return http.get(`/produits?published=true`);
   }
 }
 

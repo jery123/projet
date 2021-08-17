@@ -1,6 +1,6 @@
 <template>
-  <div class="section">
-
+  <!-- <div v-if="produit" class="section"> -->
+<div class="section"> 
 
 
 
@@ -62,6 +62,7 @@
          
           <ol>
             <li><a href="/">Home</a></li>
+            <li><a href="/client">Produits</a></li>
             <li>Détail produit</li>
           </ol>
         </div>
@@ -71,30 +72,65 @@
 
 
 
+<div v-if="currentProduit"  ></div>
+
+
+ <div class="content">
+    <div class="md-layout">
+      <div class="md-layout-item md-medium-size-100 md-size-66">
+       
+          <md-card>
+      <md-card-header :data-background-color="dataBackgroundColor">
+        <h4 class="title">Infos  sur le produit </h4>
+        <!-- <p class="category">Complete your profile</p> -->
+      </md-card-header>
+      <md-card-content>
+       <div class="card-content__title">
+            <h2 class="title is-4">
+             <strong> Nom :</strong>
+              {{ currentProduit.nom }}         
+            </h2>
+          </div>
+           <div class="title is-4">
+            <h2 class="title is-4">
+             <strong> Description : </strong>
+          {{ currentProduit.description }} 
+            </h2>
+          </div>
+          <div class="title is-4">
+            <h2 class="title is-4">
+             <strong> Quantité en stock : </strong>
+          {{ currentProduit.quantité }}  {{ currentProduit.uniteDeMesure }} 
+            </h2>
+          </div>
+            <div class="title is-4">
+            <h2 class="title is-4">
+             <strong>Prix Unitaire : </strong>
+          {{ currentProduit.prixUnitaire}} F CFA
+            </h2>
+
+          </div>
+          </md-card-content>
+            </md-card>
+       </div>
+      <div class="md-layout-item md-medium-size-100 md-size-33">
+      
+<figure class="card-image is-480x480 column is-one-thirds">
+          <img src="https://bulma.io/images/placeholders/480x480.png">
+        </figure>
+      </div>
+    </div>
+  </div>
+
 
 
     <div class="card is-clearfix columns">
-        <figure class="card-image is-480x480 column is-one-thirds">
-          <img src="https://bulma.io/images/placeholders/480x480.png">
-        </figure>
-        <div class="card-content column is-two-thirds">
-          <div class="card-content__title">
-            <h2 class="title is-4">{{ product.nom }}         
-            </h2>
-          </div>
-          <div class="card-content__text">
-            <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud
-            </p>
-          </div>
-         
-          <div class="card-content__reviews">
-            <div class="is-pulled-left">
-              <p><strong>{{ product.reviews > 0 ? `${product.reviews} Reviews` : 'No reviews' }}</strong></p>
-            </div>
+      
+        <div class="md-layout-item md-medium-size-100 md-size-66">
+        <div>
+          
             <div class="select is-rounded is-small is-pulled-right">
-              <select @change="onSelectQuantity(product.id)" v-model="selected">
+              <select @change="onSelectQuantity(currentProduit.id)" v-model="selected">
                 <option
                   v-for="quantity in quantityArray"
                   :key="quantity"
@@ -103,91 +139,174 @@
               </select>
             </div>
           </div>
-          <div class="card-content__price is-pulled-left">
-            <span class="title is-3"><strong>{{ product.price }}&euro;</strong></span>
-          </div>
+    
+          
           <div class="card-content__btn is-pulled-right">
-            <button class="button is-primary" v-if="!isAddedBtn" @click="addToCart(product.id)">{{ addToCartLabel }}</button>
-            <button class="button is-text" v-if="isAddedBtn" @click="removeFromCart(product.id)">{{ removeFromCartLabel }}</button>
-          </div>
+            <md-button class="md-round md-success" v-if="!isAddedBtn" @click="addToCart(product.id)">Commander</md-button>
+            <md-button class="md-round md-primary" v-if="isAddedBtn" @click="removeFromCart(product.id)">Retiré de la commande</md-button>
+         <div v-else>
+    <br />
+    <!-- <p>Please click on a Produit...</p> -->
+  </div> </div>
+          
       </div>
+
+      </div>
+      
+  
     </div>
-  </div>
+  
 </template>
 
 <script>
+
+
+import ProduitDataService from "../../services/ProduitDataService";
+
 export default {
-  name: 'product_detail-id',
-
-  validate ({ params }) {
-    return /^\d+$/.test(params.id)
-  },
-
-  data () {
+  name: "product_detail-id",
+  data() {
     return {
-      addToCartLabel: 'Ajouter au pagnier',
-      removeFromCartLabel: 'Retirer du pagnier',
-    //   addToFavouriteLabel: 'Add to favourite',
-      removeFromFavouriteLabel: 'Remove from favourite',
-      product: {},
-      selected: 1,
-      quantityArray: []
+      currentProduit: null,
+      message: ''
     };
   },
-
-  mounted () {
-    this.product = this.$store.getters.getProductById(this.$route.params.id);
-    this.selected = this.product.quantity;
-
-    for (let i = 1; i <= 20; i++) {
-      this.quantityArray.push(i);
-    }
-  },
-
-  computed: {
-    isAddedBtn () {
-      return this.product.isAddedBtn;
-    }
-  },
-
   methods: {
-    addToCart (id) {
-      let data = {
-        id: id,
-        status: true
-      }
-      this.$store.commit('addToCart', id);
-      this.$store.commit('setAddedBtn', data);
+    getProduit(id) {
+      ProduitDataService.get(id)
+        .then(response => {
+          this.currentProduit = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
-    removeFromCart (id) {
-      let data = {
-        id: id,
-        status: false
-      }
-      this.$store.commit('removeFromCart', id);
-      this.$store.commit('setAddedBtn', data);
-    },
-    onSelectQuantity (id) {
-      let data = {
-        id: id,
-        quantity: this.selected
-      }
-      this.$store.commit('quantity', data);
-    },
-    saveToFavorite (id) {
-      let isUserLogged = this.$store.state.userInfo.isLoggedIn;
 
-      if (isUserLogged) {
-        this.$store.commit('addToFavourite', id);
-      } else {
-        this.$store.commit('showLoginModal', true);
-      }
+    updatePublished(status) {
+      var data = {
+         //  prodId:this.currentProduit.prodId,
+        // imgId: this.currentProduit.imgId,
+         id: this.currentProduit.id,
+        nom:this.currentProduit.nom,
+        description: this.currentProduit.description,
+        quantité: this.currentProduit.quantité,
+        prixUnitaire: this.currentProduit.prixUnitaire,
+        uniteDeMesure:this.currentProduit.uniteDeMesure,
+        // published: status
+      };
+
+      ProduitDataService.update(this.currentProduit.id, data)
+        .then(response => {
+          this.currentProduit.published = status;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
-    removeFromFavourite (id) {
-      this.$store.commit('removeFromFavourite', id);
+
+    updateProduit() {
+      ProduitDataService.update(this.currentProduit.id, this.currentProduit)
+        .then(response => {
+          console.log(response.data);
+          this.message = 'Le produit a été modifier avec succès ! ! ! ';
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+
+    deleteProduit() {
+      ProduitDataService.delete(this.currentProduit.id)
+        .then(response => {
+          console.log(response.data);
+          this.$router.push({ name: "produits" });
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
+  },
+  mounted() {
+    this.message = '';
+    this.getProduit(this.$route.params.id);
   }
 };
+
+// export default {
+//   name: 'product_detail-id',
+
+//   validate ({ params }) {
+//     return /^\d+$/.test(params.id)
+//   },
+
+//   data () {
+//     return {
+//       addToCartLabel: 'Ajouter au pagnier',
+//       removeFromCartLabel: 'Retirer du pagnier',
+//     //   addToFavouriteLabel: 'Add to favourite',
+//       removeFromFavouriteLabel: 'Remove from favourite',
+//       product: {},
+//       selected: 1,
+//       quantityArray: []
+//     };
+//   },
+
+//   mounted () {
+//     // this.product = this.$store.getters.getProductById(this.$route.params.id);
+//     this.selected = this.product.quantity;
+
+//     // for (let i = 1; i <= this.produit.quantité.length(); i++) {
+//       for (let i = 1; i <= 20; i++) {
+//       this.quantityArray.push(i);
+//     }
+//   },
+
+//   computed: {
+//     isAddedBtn () {
+//       return this.product.isAddedBtn;
+//     }
+//   },
+
+//   methods: {
+//     addToCart (id) {
+//       let data = {
+//         id: id,
+//         status: true
+//       }
+//       this.$store.commit('addToCart', id);
+//       this.$store.commit('setAddedBtn', data);
+//     },
+//     removeFromCart (id) {
+//       let data = {
+//         id: id,
+//         status: false
+//       }
+//       this.$store.commit('removeFromCart', id);
+//       this.$store.commit('setAddedBtn', data);
+//     },
+//     onSelectQuantity (id) {
+//       let data = {
+//         id: id,
+//         quantity: this.selected
+//       }
+//       this.$store.commit('quantity', data);
+//     },
+//     saveToFavorite (id) {
+//       let isUserLogged = this.$store.state.userInfo.isLoggedIn;
+
+//       if (isUserLogged) {
+//         this.$store.commit('addToFavourite', id);
+//       } else {
+//         this.$store.commit('showLoginModal', true);
+//       }
+//     },
+//     removeFromFavourite (id) {
+//       this.$store.commit('removeFromFavourite', id);
+//     }
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

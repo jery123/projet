@@ -1,50 +1,54 @@
 <template>
-  <div v-if="currentProduit" class="edit-form">
+  <div v-if="currentProduit" >
     <h4>Produit</h4>
-                                          <form>
-                                             <md-card>
-                                                  <md-card-header :data-background-color="dataBackgroundColor">
-                                                         <h4 class="title">Ajout d'un produit </h4>
-                                                   </md-card-header>
-                                                  <md-card-content>
-                                                     <div class="md-layout"> 
-                                                        <div class="md-layout-item md-small-size-100 md-size-50">
-                                                          <md-field>
-                                                             <label>Nom</label>
-                                                             <md-input v-model="currentProduit.nom" type="text"></md-input>
-                                                          </md-field>
-                                                        </div>
-                                                                                                             
-                                                          <div class="md-layout-item md-small-size-100 md-size-50">
-                                                            <md-field>
-                                                              <label>Quantité</label>
-                                                              <md-input v-model="currentProduit.quantité" type="number"></md-input>
-                                                            </md-field>
-                                                          </div> 
-                                                          <div class="md-layout-item md-small-size-100 md-size-50">
-                                                            <md-field>
-                                                              <label>Prix Unitaire</label>
-                                                              <md-input v-model="currentProduit.prixUnitaire" type="number"></md-input>
-                                                            </md-field>
-                                                          </div> 
-                                                            <div class="md-layout-item md-small-size-100 md-size-50">
-                                                             <md-field>
-                                                              <label>Unité de mesure</label>
-                                                              <v-select :options="['Kg', 'Litre', 'Cageot', 'Sacs']" v-model="currentProduit.uniteDeMesure"></v-select>
-                                                              <!-- <md-input v-model="currentProduit.uniteDeMesure" type="text"></md-input> -->
-                                                             </md-field>
-                                                            </div> 
-                                                          
-                                                          <div class="md-layout-item md-small-size-100 md-size-50">
-                                                            <md-field>
-                                                             <label><strong>Status:</strong></label>
-                                                               {{ currentProduit.published ? "Published" : "Pending" }}
-                                                               </md-field>
-                                                          </div>
-                                                       </div>
-                                                    </md-card-content>
-                                                  </md-card>        
-                                              </form>
+<form>
+   <md-card>
+        <md-card-header :data-background-color="dataBackgroundColor">
+               <h4 class="title">Ajout d'un produit </h4>
+         </md-card-header>
+        <md-card-content>
+           <div class="md-layout"> 
+              <div class="md-layout-item md-small-size-100 md-size-50">
+                <md-field>
+                   <label>Nom</label>
+                   <md-input v-model="currentProduit.nom" type="text"></md-input>
+                </md-field>
+              </div>
+                         
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                    <label>Quantité</label>
+                    <md-input v-model="currentProduit.quantité" type="number"></md-input>
+                  </md-field>
+                </div> 
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                    <label>Prix Unitaire</label>
+                    <md-input v-model="currentProduit.prixUnitaire" type="number"></md-input>
+                  </md-field>
+                </div> 
+                  <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                         <label for="movie">Unité de mesure</label>
+           <md-select v-model="currentProduit.uniteDeMesure" name="movie" id="movie">
+             <md-option value="kg">Kg</md-option>
+             <md-option value="litre">Litre</md-option>
+             <md-option value="cageot">Cageot</md-option>
+             <md-option value="sacs">Sacs</md-option>
+            </md-select>
+         </md-field>
+                  </div> 
+                
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                   <label><strong>Status:</strong></label>
+                     {{ currentProduit.published ? "Published" : "Pending" }}
+                     </md-field>
+                </div>
+             </div>
+          </md-card-content>
+        </md-card>        
+    </form>
 
     <md-button class="badge badge-primary mr-2"
       v-if="currentProduit.published"

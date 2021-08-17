@@ -1,10 +1,22 @@
 <template>
   <ul class="nav nav-mobile-menuUser">
-    <li>
+    <!-- <li>
       <md-field>
         <label>Search</label>
         <md-input v-model="search" type="text"></md-input>
       </md-field>
+    </li> -->
+    <li>
+          <v-col cols="12" md="8">
+      <v-text-field v-model="nom" label="Search by Name"></v-text-field>
+    </v-col>
+
+    <v-col cols="12" md="4">
+      <v-btn small @click="searchNom">
+        Search
+      </v-btn>
+    </v-col>
+
     </li>
     <li>
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -50,6 +62,19 @@ export default {
         "Kevin Malone"
       ]
     };
+  },
+  methods:{
+      searchNom() {
+      ProduitDataService.findByNom(this.nom)
+        .then(response => {
+          this.produits = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    
+  },
   }
 };
 </script>

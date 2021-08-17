@@ -10,8 +10,8 @@ Vue.config.productionTip = false
 
 //modal
 
-import {Modal} from '@/components'
-Vue.component(Modal)
+// import Modal from './components/Modal'
+// Vue.component(Modal)
 //end modal
 
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
@@ -61,9 +61,6 @@ new Vue({
     Chartist: Chartist
   }
 });
-
-
-
 
 
 

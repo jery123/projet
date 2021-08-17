@@ -3,7 +3,7 @@
     <li>
       <md-field>
         <label>Search</label>
-        <md-input v-model="search" type="text"></md-input>
+        <md-input v-model="nom" type="text"> </md-input>
       </md-field>
     </li>
     <li>
@@ -40,7 +40,7 @@
 export default {
   data() {
     return {
-      search: null,
+      nom: null,
       selectedEmployee: null,
       employees: [
         "Jim Halpert",

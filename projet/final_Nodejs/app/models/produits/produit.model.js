@@ -3,9 +3,9 @@ module.exports = (sequelize, Sequelize) => {
       prodId: {
           type: Sequelize.INTEGER,
           defaultValue: 1,
-          allowNull: false,
+        //   allowNull: false,
           references: {
-              model: 'users',
+              model: 'farmers',
               key: 'id'
           },
           onUpdate: 'cascade',
@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
         imgId: {
             type: Sequelize.INTEGER,
             defaultValue: 1,
-            allowNull: false,
+            // allowNull: false,
             references: {
                 model: 'images',
                 key: 'id'

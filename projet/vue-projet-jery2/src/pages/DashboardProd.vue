@@ -2,52 +2,71 @@
    
 
   <div>
-    
-      <!-- Le bouton permet d'éviter l'ouverture intempestive du modal pour le cours -->
-     
+    <v-col cols="12" md="8">
+      <v-text-field v-model="nom" label="Search by Name"></v-text-field>
+    </v-col>
 
-      <!-- <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Titre</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-            </div>
-            <div class="modal-body">
-              <p>Texte du modal + choix et actions...</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-primary">Enregistrer</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
+    <v-col cols="12" md="4">
+      <v-btn small @click="searchNom">
+        Search
+      </v-btn>
+    </v-col>
 
-
-
-<!--===============Vos produits ================-->
- 
-  
-          <!-- <p class="control has-icons-left">
-		<input class="input is-rounded" type="text"	v-model="nom"	placeholder="Search by title"  @keyup="searchNom">
-		<span class="icon is-small is-left">
-			<i class="fa fa-search"></i>
-		</span>
-	</p> -->
        <md-card> <div class="list row">
        
          <md-card-header data-background-color="green">
             <h4 class="title">Vos produits</h4>
             <p class="category">
-             Consultez vos notifications chaque jour<i class="fa fa-heart heart"></i>
+             <!-- Consultez vos notifications chaque jour<i class="fa fa-heart heart"></i> -->
             </p>
           </md-card-header>
           <!-- <md-card-header data-background-color="green"> 
            <h4>Vos produits</h4>
           </md-card-header> -->
            <!-- <md-card-content> -->
-                <ul class="list-group">
+              <div class="md-layout-item md-medium-size-100">
+
+
+
+
+
+ 
+    <v-row align="center" class="list px-3 mx-auto">
+   
+    <v-col cols="12" sm="12">
+      <v-card class="mx-auto" tile>
+        <!-- <v-card-title>Produits</v-card-title> -->
+
+        <v-data-table
+          :headers="headers"
+          :items="produits"
+          disable-pagination
+          :hide-default-footer="true"
+        >
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon small class="mr-2" @click="editProduit(item.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+</svg></v-icon>
+            <v-icon small @click="deleteProduit(item.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+</svg></v-icon>
+          </template>
+        </v-data-table>
+
+        <v-card-actions v-if="produits.length > 0">
+          <v-btn small color="error" @click="removeAllProduits">
+            Remove All
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
+
+
+
+
+
+                <!-- <ul class="list-group">
                   <li class="list-group-item"
                     :class="{ active: index == currentIndex }"
                     v-for="(produit, index) in produits"
@@ -57,12 +76,24 @@
         
                   {{ produit.nom }}
                   </li>
-                </ul>
-      </div>
+                </ul> -->
+                </div>
+    <!-- <v-data-table
+          :headers="headers"
+          :items="produits"
+          disable-pagination
+          :hide-default-footer="true"
+        >
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon small class="mr-2" @click="editProduit(item.id)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteProduit(item.id)">mdi-delete</v-icon>
+          </template>
+        </v-data-table> -->
+
     <!-- </md-card-content> -->
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
          <div v-if="currentProduit">
-           <p>Produit</p>
+           <p>Produit {{currentProduit.id}}</p>
              <div>
                <label><strong>Nom:</strong></label> {{ currentProduit.nom }}
              </div>
@@ -70,129 +101,44 @@
                 <label><strong>Description:</strong></label> {{ currentProduit.description }}
              </div>
              <div>
+                <label><strong>Quantité:</strong></label> {{ currentProduit.quantité }}
+              </div>
+               <div>
+                <label><strong>Prix Unitaire:</strong></label> {{ currentProduit.prixUnitaire }}
+              </div>
+              <div>
+                <label><strong>Unité de mesure:</strong></label> {{ currentProduit.uniteDeMesure }}
+              </div>
+               <div>
                 <label><strong>Status:</strong></label> {{ currentProduit.published ? "Published" : "Pending" }}
               </div>
-
-                <md-button class="md-info"  :href="'/produitfarm/' + currentProduit.id"  data-toggle="modal"  data-target="#edit" > Edit </md-button>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Nom d'utilisateur</label>
+             {{ currentProduit.quantité }}
+            </md-field>
+          </div>
+                <md-button class="md-info md-round "  :href="'/produitfarm/' + currentProduit.id" > Edit </md-button>
                                                 
 
                 <md-button class="md-round md-danger" @click="removeAllProduits" >Supprimer</md-button>
       
          </div>
-          <!-- </md-card-content> -->
+          </md-card-content>
          <div v-else>
           <br />
            <p>S'il vous plait cliquer sur un Produit...</p>
         
           </div>
-    <!--  -->
-       
-         <div class="modal fade" id="produit" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                                    <!-- <h5 class="modal-title" id="prodRegis">Enregistrement</h5> -->
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                                  </div>
-                                   <div class="modal-body">
-                                       <form>
-                                          <!-- <div  v-if="!submitted"> -->
-                                               <md-card>
-                                                  <md-card-header :data-background-color="dataBackgroundColor">
-                                                         <h4 class="title">Ajout d'un produit </h4>
-                                                   </md-card-header>
-                                                   <md-card-content>
-                                                     <div class="md-layout"> 
-                                                        <div class="md-layout-item md-small-size-100 md-size-50">
-                                                          <md-field>
-                                                             <label>Nom</label>
-                                                             <md-input v-model="produit.nom" type="text"></md-input>
-                                                          </md-field>
-                                                        </div>
-                                                                                                             
-                                                          <div class="md-layout-item md-small-size-100 md-size-50">
-                                                            <md-field>
-                                                              <label>Quantité</label>
-                                                              <md-input v-model="produit.quantité" type="number"></md-input>
-                                                            </md-field>
-                                                          </div> 
-                                                          <div class="md-layout-item md-small-size-100 md-size-50">
-                                                            <md-field>
-                                                              <label>Prix Unitaire</label>
-                                                              <md-input v-model="produit.prixUnitaire" type="number"></md-input>
-                                                            </md-field>
-                                                          </div> 
-                                                            <div class="md-layout-item md-small-size-100 md-size-50">
-                                                          <md-field>
-                                                              <label>Unité de mesure</label>
-                                                              <v-select :options="['Kg', 'Litre', 'Cageot', 'Sacs']" v-model="produit.uniteDeMesure"></v-select>
-                                                              <!-- <md-input v-model="produit.uniteDeMesure" type="text"></md-input> -->
-                                                          </md-field>
-                                                         </div> 
-                                                          <div class="md-layout-item md-size-100 text-right">
-                                                               <md-button class="md-danger" @click="notifyVue('top','left')"  data-dismiss="modal">Fermer</md-button>
-                                                               <md-button class="md-success" @click="saveProduit" data-toggle="modal"  data-target="#cOK"  >Enregistrer </md-button>
-                                                               
-                                                               
-                                                                     <div class="modal fade" id="cOK" tabindex="-1" role="dialog" aria-hidden="true">
-                                                                            <div class="modal-dialog" role="document">
-                                                                                     <div class="modal-content">
-                                                                                          <div class="modal-header">
-                                                                                                 <h5 class="modal-title" id="regisProd" color="black">Validation !</h5>
-                                                                                                 <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> -->
-                                                                                           </div>
-                                                                                           <div class="modal-body">
-
-                                                                                               <h4>Produit créer avec succès ! </h4>
-            
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                               <md-button class="md-info" @click="newProduit" >OK</md-button>                
-                                                                                            </div>
-                                                                                      </div>
-                                                                              </div>
-                                                                       </div>
-                                                                        </div> 
-                                                                      </div>
-         
-                                                           
-                                                        </md-card-content>
-                                                      </md-card>
-                                                      <!-- </div> -->
-                                            
-                                        </form>
-                                </div>                              
-                           </div>
-                    </div>
-                  </div>
-
-  <!-- / -->
-        
-     
+     </div> -->
     </div>
-   </md-card>
- <template>
-  <md-button class="md-primary md-round classic-modal" @click="classicModal = true">Classic Modal</md-button>
-  <modal v-if="classicModal" @close="classicModalHide">
-    <template slot="header">
-      <h4 class="modal-title">Modal Title</h4>
-      <md-button class="md-simple md-just-icon md-round modal-default-button" @click="classicModalHide">
-        <md-icon>clear</md-icon>
-      </md-button>
-    </template>
-
-    <template slot="body">
-      <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-    </template>
-
-    <template slot="footer">
-      <md-button class="md-simple">Nice Button</md-button>
-      <md-button class="md-danger md-simple" @click="classicModalHide">Close</md-button>
-    </template>
-  </modal>
-</template>
- <md-button type="button"  class="md-succes" data-toggle="modal" data-target="#produit">Ajouter un produit </md-button>
-  </div>
+   </md-card> 
+ <md-button type="button"  class="md-success" :href="'/create-product'">Ajouter un produit </md-button>
+    
+    
+    
+   
+    </div>
 
 <!--===============END Vos produits ================-->
 
@@ -209,37 +155,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         data() {
 
     return {
-      produit: {id: null, prodId:"",  imgId:"", nom:"", description:"", quantité:"", prixUnitaire:"", uniteDeMesure:"",  published: false },
-        produits: [],
+     produits: [],
       currentProduit: null,
       currentIndex: -1,
-      nom: ""
-// submitted: false
+      nom: "",
+       headers: [
+        { text: "Nom", align: "start", sortable: false, value: "nom" },
+        { text: "Description", value: "description", sortable: false },
+        { text: "Status", value: "published", sortable: false },
+        { text: "Actions", value: "actions", sortable: false },
+      ],
     };
 
   },
   methods: {
-    saveProduit() {
-      var data = {
-        //  prodId:this.produit.prodId,
-        // imgId: this.produit.imgId,
-        nom:this.produit.nom,
-        description: this.produit.description,
-        quantité: this.produit.quantité,
-        prixUnitaire: this.produit.prixUnitaire,
-        uniteDeMesure:this.produit.uniteDeMesure,
-       };
-
-      ProduitDataService.create(data)
-        .then(response => {
-          this.produit.id = response.data.id;
-          console.log(response.data);
-          // this.submitted = true;
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },//================end====================//
 
  retrieveProduits() {
       ProduitDataService.getAll()
@@ -257,7 +186,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
       this.currentIndex = -1;
     },
  setActiveProduit(produit, index) {
-      this.currentProduct = produit;
+      this.currentProduit = produit;
       this.currentIndex = index;
     },
      removeAllProduits() {
@@ -281,11 +210,28 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         });
     
   },
-    newProduit() {
-      // this.submitted = false;
-      this.produit = {};
+      editProduit(id) {
+      this.$router.push({ name: "produitfarm-details", params: { id: id } });
+    },
+      deleteProduit(id) {
+      ProduitDataService.delete(id)
+        .then(() => {
+          this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
+  
+    getDisplayProduit(produit) {
+      return {
+        id: produit.id,
+        nom: produit.nom.length > 30 ? produit.nom.substr(0, 30) + "..." : produit.nom,
+        description: produit.description.length > 30 ? produit.description.substr(0, 30) + "..." : produit.description,
+        status: produit.published ? "Published" : "Pending",
+      };
+    },
    mounted() {
     this.retrieveProduits();
   }
@@ -293,6 +239,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 </script>
 
 <style scoped>
-
-
+*{
+  font-family: 'Times New Roman', Times, serif;
+}
+.list {
+  max-width: 750px;
+}
 </style>

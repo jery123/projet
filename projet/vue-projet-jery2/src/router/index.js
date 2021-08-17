@@ -74,9 +74,9 @@ const routes = [
   
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   
   // {
@@ -94,9 +94,9 @@ const routes = [
     component: () => import('../pages/utilisateur/Accueil.client.vue')
   },
   {
-    path: '/detail',
-    name: 'detail',
-   
+    // path: '/detail/:id',
+    path: '/detail/:id',
+    name: 'product_detail-id',
     component: () => import('../pages/utilisateur/product_detail.vue')
   },
   {
@@ -110,11 +110,11 @@ const routes = [
     name: "Dashboard utilisateur",
      component: Dashboard_client,
      children: [
-       {
-        path: '/index',
-        name: "Dashboard-producteur",
-        component: () => import('@/pages/DashboardProd.vue')
-       },
+      //  {
+      //   path: '/index',
+      //   name: "Dashboard-producteur",
+      //   component: () => import('@/pages/DashboardProd.vue')
+      //  },
        {
         path: '/addProduct',
         name: 'Entrez les informations sur votre produit',
@@ -126,9 +126,9 @@ const routes = [
         component: () => import('../pages/DashboardProd.vue')
        },
        {
-        path: '/info-produit',
+        path: '/create-product',
         name: 'Info sur le produit',
-        component: () => import('@/pages/ProductProfilProd.vue')
+        component: () => import('@/pages/CreateProduct.vue')
        },
        {
         path: '/profil',
@@ -161,7 +161,7 @@ const routes = [
     component: () => import("../pages/utilisateur/ProduitFarm")
   },
    
-   
+  
 //=======================================END
    
    

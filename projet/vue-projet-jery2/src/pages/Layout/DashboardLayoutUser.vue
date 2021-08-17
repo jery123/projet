@@ -19,15 +19,15 @@
         <md-icon>content_paste</md-icon>
         <p>Liste des utilisateurs</p>
       </sidebar-link> -->
-      <sidebar-link to="/produits">
+      <!-- <sidebar-link to="/produits">
        <md-icon>bubble_chart</md-icon>
-        <!-- <md-icon>library_books</md-icon> -->
+        <md-icon>library_books</md-icon>
         <p>Mes produits</p>
-      </sidebar-link>
+      </sidebar-link> -->
 
-<sidebar-link to="/info-produit">
+<sidebar-link to="/create-product">
         <md-icon>content_paste</md-icon>
-        <p>Info sur un produit</p>
+        <p>Nouveau produit</p>
       </sidebar-link>
 
       <!-- <sidebar-link to="/icons">
@@ -42,10 +42,10 @@
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
       </sidebar-link>
-      <sidebar-link to="/upgrade" class="active-pro">
+      <!-- <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Version recente</p>
-      </sidebar-link>
+      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">

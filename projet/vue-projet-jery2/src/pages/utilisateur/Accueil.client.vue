@@ -68,17 +68,37 @@
 </main>
   
 <div class="heade">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
    <div class="col-md-8">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search by title" v-model="title"/>
+<!--         
+        <input type="text" id="search"  placeholder="Search by name" v-model="title"/>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" @click="searchTitle"> Search</button>
-        </div>
+         <md-button  id="search1" @click="searchTitle"> Search</md-button>
+        </div> -->
+         <v-row >
+         <v-col cols="12" md="8">
+      <v-text-field v-model="nom" label="Search by Name"></v-text-field>
+    </v-col>
+
+    <v-col cols="12" md="4">
+      <v-btn small @click="searchNom">
+        Search
+      </v-btn>
+    </v-col>
+      </v-row>
       </div>
     </div>
 </div>
 <div id="produits">
-  <div id="heade1"></div>
+  <div id="heade1">
+    <h2> Nos produits</h2>
+  </div>
 <!--  
 <v-card
     class="mx-auto"
@@ -120,8 +140,20 @@
     
   </v-card>
    -->
- <div class="md-layout-item md-small-size-100 md-size-33">
- <v-card
+ <div class="container">
+
+
+<!-- DEBUT -->
+ <!--
+    <div class="container" :href="'/detail/' + produit.id" >
+   <div
+   class="list-group-item"
+                    v-for="(produit, index) in produits"
+                    :key="index"
+                    @click="setActiveProduit(produit, index)"
+                    >
+                 
+    <v-card
     class="mx-auto"
     max-width="344"
    :href="'/detail'" 
@@ -132,11 +164,14 @@
     ></v-img>
 
     <v-card-title>
-      Top western road trips
+         {{ produit.nom }}
     </v-card-title>
 
     <v-card-subtitle>
-      1,000 miles of wonder
+        {{ produit.description }}
+    </v-card-subtitle>
+    <v-card-subtitle>
+        {{ produit.prixUnitaire }} F CFA
     </v-card-subtitle>
 
     <v-card-actions>
@@ -162,13 +197,152 @@
         <v-divider></v-divider>
 
         <v-card-text>
-          I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-        </v-card-text>
+          Produit disponible sur tout nos coin de vente
+            </v-card-text>
       </div>
     </v-expand-transition>
-  </v-card>
+  </v-card> 
+  </div>
+  </div>
+  -->
+<!-- END redaction of product-->
+
+                  <div  
+                    :class="{ active: index == currentIndex }"
+                    v-for="(produit, index) in produits"
+                    :key="index"
+                    @click="setActiveProduit(produit, index)" 
+                   :href="'/produitfarm/' + produit.id"
+                  >
+                   <div class="container" >
+
+       <v-card class="mx-auto" max-width="344" 
+  >
+  <div data-toggle="modal" data-target="#modalProd" >  
+    <v-img
+      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      height="200px"
+    ></v-img>
+
+    <v-card-title>
+         {{ produit.nom }}
+    </v-card-title>
+
+    <v-card-subtitle>
+       {{ produit.description }}
+    </v-card-subtitle>
+ </div>
+    <v-card-actions>
+      <v-btn
+      class="md-raised md-success"
+         text
+      >
+        Achat
+      </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        icon
+        @click="show = !show"
+      >
+        <v-icon color="orange lighten-2">{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+      </v-btn>
+    </v-card-actions>
+
+    <v-expand-transition>
+      <div v-show="show" color="orange lighten-2">
+        <v-divider></v-divider>
+
+        <v-card-text>
+          Produit disponible sur tout nos coin de vente
+            </v-card-text>
+      </div>
+    </v-expand-transition>
+  </v-card> 
+<!-- Modal -->
+           <div v-if="currentProduit" class="modal fade" id="modalProd" tabindex="-1" role="dialog" aria-hidden="true">
+           <p>Produit {{currentProduit.id}}</p>
+             <div>
+               <label><strong>Nom:</strong></label> {{ currentProduit.nom }}
+             </div>
+             <div>
+                <label><strong>Description:</strong></label> {{ currentProduit.description }}
+             </div>
+             <div>
+                <label><strong>Quantité:</strong></label> {{ currentProduit.quantité }}
+              </div>
+               <div>
+                <label><strong>Prix Unitaire:</strong></label> {{ currentProduit.prixUnitaire }}
+              </div>
+              <div>
+                <label><strong>Unité de mesure:</strong></label> {{ currentProduit.uniteDeMesure }}
+              </div>
+               
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Nom d'utilisateur</label>
+             {{ currentProduit.quantité }}
+            </md-field>
+          </div>
+                <md-button class="md-info md-round "  :href="'/detail/' + currentProduit.id" > Plus d'infos </md-button>
+                                                
+
+                <md-button class="md-round" :href="'/client' " >Annuler</md-button>
+      
+         </div>      
+     <!--END Modal -->             
+                  </div>
+                </div> 
+<v-card
+    class="mx-auto"
+    max-width="344"
+   :href="'/detail'" 
+  >
+    <v-img
+      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      height="200px"
+    ></v-img>
+
+    <v-card-title>
+        Pour le nom du produit
+    </v-card-title>
+
+    <v-card-subtitle>
+       Pour la description
+    </v-card-subtitle>
+
+    <v-card-actions>
+      <v-btn
+      class="md-raised md-success"
+         text
+      >
+        Achat
+      </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        icon
+        @click="show = !show"
+      >
+        <v-icon color="orange lighten-2">{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+      </v-btn>
+    </v-card-actions>
+
+    <v-expand-transition>
+      <div v-show="show" color="orange lighten-2">
+        <v-divider></v-divider>
+
+        <v-card-text>
+          Produit disponible sur tout nos coin de vente
+            </v-card-text>
+      </div>
+    </v-expand-transition>
+  </v-card> 
 
  </div>
+  
     <!-- <router-link
       class="details"
       :to="{
@@ -206,7 +380,7 @@
             <div class="modal-body">
 
        
-              <!-- <p>Texte du modal + choix et actions...</p> -->
+              <p>Texte du modal + choix et actions...</p>
             </div>
             <div class="modal-footer">
                <md-card-content>
@@ -230,6 +404,12 @@
 
 
            <div class="columns is-centered is-multiline">
+ <!-- List des produits   -->
+              <!-- <div class="products" id="products">
+      <div class="container">
+          
+  </div> -->
+<!-- List des produits   -->
 
                <p> Pas de produit trouvé !</p>
   
@@ -299,23 +479,116 @@ Nous rejoindre sur:
 
 
 <script>
+import ProduitDataService from '../../services/ProduitDataService';
+import 'bootstrap/dist/css/bootstrap.min.css'
+  export default {
+        data() {
 
-// import VmProducts from './Produits';
-export default {
-  
-data: () => ({
-   show: false,
-}),
-  
+    return {
+     produits: [],
+      currentProduit: null,
+      currentIndex: -1,
+      nom: "",
+       show:false,
+    };
+
+  },
+  methods: {
+
+ retrieveProduits() {
+      ProduitDataService.getAll()
+        .then(response => {
+          this.produits = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+ refreshList() {
+      this.retrieveProduits();
+      this.currentProduit = null;
+      this.currentIndex = -1;
+    },
+ setActiveProduit(produit, index) {
+      this.currentProduit = produit;
+      this.currentIndex = index;
+    },
+     removeAllProduits() {
+      ProduitDataService.deleteAll()
+        .then(response => {
+          console.log(response.data);
+          this.refreshList();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    searchNom() {
+      ProduitDataService.findByNom(this.nom)
+        .then(response => {
+          this.produits = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     
-   
+  },
+      editProduit(id) {
+      this.$router.push({ name: "produitfarm-details", params: { id: id } });
+    },
+      deleteProduit(id) {
+      ProduitDataService.delete(id)
+        .then(() => {
+          this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+  
+    getDisplayProduit(produit) {
+      return {
+        id: produit.id,
+        nom: produit.nom.length > 30 ? produit.nom.substr(0, 30) + "..." : produit.nom,
+        description: produit.description.length > 30 ? produit.description.substr(0, 30) + "..." : produit.description,
+        status: produit.published ? "Published" : "Pending",
+      };
+    },
+   mounted() {
+    this.retrieveProduits();
+  }
 };
 </script>
 
 
-
 <style>
-
+#search{
+  height: 45px;
+  vertical-align: middle;
+  border: dashed;
+  border-width: 4px 2px;
+  border-radius: 40px;
+  background-color:white;
+  border: #333;
+  color: black;
+   font-family: "Times New Roman", Times, serif;
+   font-weight: bold;
+   min-width: 500px;
+}
+#search1{
+  vertical-align: middle;
+  border: dashed;
+  border-width: 4px 2px;
+  border-radius: 40px;
+  background-color:white;
+  border: #333;
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+   min-width: 20px;
+}
 /* p{
    font-family: "Times New Roman", Times, serif;
 }
@@ -353,6 +626,9 @@ data: () => ({
 
 
 .heade{
+   vertical-align: middle;
+  display: inline-block;
+  text-align: center;
     background: url('../../assets/fullhd/15.jpg') no-repeat;
     background-size: cover;
    width: 100%;
@@ -361,11 +637,14 @@ data: () => ({
    color: rgb(189, 152, 152);
    resize: both;
     }
-#heade1{
-    background-color: rgba(255, 255, 255, 0.849);
+#heade1 h2{
+   font-family: "Times New Roman", Times, serif;
+   /* font-style: italic; */
+   font-weight: bold;
+   background-color: rgba(255, 255, 255, 0.849);
    height: 50px;
    border: 2px solid;
-   color: rgba(255, 255, 255, 0.835);
+   color: rgba(25, 80, 46, 0.835);
   }
 
 

@@ -99,7 +99,12 @@ import FarmerDataService from "../../services/FarmerDataService";
 
 export default {
   name: "edit-profil-user",
-  
+    props: {
+    dataBackgroundColor: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       farmer: {
@@ -130,6 +135,8 @@ export default {
         experience:this.farmer.experience,
         ville:this.farmer.ville,
         telephone:this.farmer.telephone,
+        role:true,
+        
            };
 
       FarmerDataService.create(data)
@@ -151,4 +158,3 @@ export default {
   }
 };
 </script>
-<style></style>
