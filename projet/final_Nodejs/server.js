@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8083"
+  origin: "http://localhost:8081"
 };
 
 app.use(cors(corsOptions));
@@ -15,6 +15,32 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const db = require("./app/models/user");
+// db.sequelize.sync();
+const Role = db.role;
+
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+ 
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
+ 
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
+}
+
 
 //Pour l'image
 const dbimg = require("./app/models/images");
@@ -65,7 +91,8 @@ require("./app/routes/admin.routes")(app);
 require("./app/routes/produit.routes")(app);
 require("./app/routes/client.routes")(app);
 
-
+require('./app/routes/auth.routes')(app);
+require('./app/routes/user.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8083;
 app.listen(PORT, () => {

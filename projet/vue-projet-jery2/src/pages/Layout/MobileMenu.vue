@@ -1,10 +1,15 @@
 <template>
   <ul class="nav nav-mobile-menu">
     <li>
-      <md-field>
-        <label>Search</label>
-        <md-input v-model="nom" type="text"> </md-input>
-      </md-field>
+       <v-col cols="12" md="8">
+      <v-text-field v-model="nom" label="Search by Name"></v-text-field>
+    </v-col>
+
+    <v-col cols="12" md="4">
+      <v-btn small @click="searchNom">
+        Search
+      </v-btn>
+    </v-col>
     </li>
     <li>
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -16,7 +21,7 @@
       <drop-down>
         <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
           <i class="material-icons">notifications</i>
-          <span class="notification">5</span>
+          <!-- <span class="notification">5</span> -->
           <p>Notifications</p>
         </a>
         <ul class="dropdown-menu dropdown-menu-right">

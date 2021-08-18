@@ -6,14 +6,14 @@
     :style="sidebarStyle"
   >
     <div class="logo">
-      <a href="http://www.jangolo.cm/" class="simple-text logo-mini">
+      <a href="#" class="simple-text logo-mini">
         <div class="logo-img">
           <img :src="imgLogo" alt="" />
         </div>
       </a>
 
       <a
-        href=""
+        href="https://www.creative-tim.com/product/vue-material-dashboard"
         target="_blank"
         class="simple-text logo-normal"
       >
@@ -47,7 +47,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Janlogo Farmer"
+      default: "Vue MD"
     },
     sidebarBackgroundImage: {
       type: String,

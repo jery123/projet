@@ -25,7 +25,7 @@
           <li class="dropdown"><a href="#"><span>Options</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               
-              <li><a href="/">Déconnexion</a></li>
+              <li><a href="/home">Déconnexion</a></li>
               <li><a href="#">Autre</a></li>
             </ul>
           </li>
@@ -59,7 +59,7 @@
         <div class="d-flex justify-content-between align-items-center">
          
           <ol>
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li>Produits</li>
           </ol>
         </div>

@@ -1,7 +1,7 @@
 import Sidebar from "./SideBar.vue";
-import SidebarUser from "./SideBarUser.vue";
+// import SidebarUser from "./SideBarUser.vue";
 import SidebarLink from "./SidebarLink.vue";
-import SidebarLinkUser from "./SidebarLinkUser.vue";
+// import SidebarLinkUser from "./SidebarLinkUser.vue";
 
 const SidebarStore = {
   showSidebar: false,
@@ -26,9 +26,9 @@ const SidebarPlugin = {
       }
     });
     Vue.component("side-bar", Sidebar);
-    Vue.component("side-bar-user", SidebarUser);
+    // Vue.component("side-bar-user", SidebarUser);
     Vue.component("sidebar-link", SidebarLink);
-    Vue.component("sidebar-link-user", SidebarLinkUser);
+    // Vue.component("sidebar-link-user", SidebarLinkUser);
   }
 };
 

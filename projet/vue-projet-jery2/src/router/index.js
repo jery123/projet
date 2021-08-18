@@ -18,7 +18,13 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/admin",
+    path: '/home',
+    name: 'home',
+   
+    component: () => import('../pages/utilisateur/Bienvenue.vue'),
+    },
+  {
+    path: "/",
     component: DashboardLayout,
     redirect: "/dashboard",
     children: [
@@ -99,12 +105,7 @@ const routes = [
     name: 'product_detail-id',
     component: () => import('../pages/utilisateur/product_detail.vue')
   },
-  {
-    path: '/',
-    name: 'home',
-   
-    component: () => import('../pages/utilisateur/Bienvenue.vue'),
-    },
+  
    {
     path: "/dashboard-producteur",
     name: "Dashboard utilisateur",
