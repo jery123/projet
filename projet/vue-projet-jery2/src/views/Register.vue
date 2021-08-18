@@ -52,67 +52,84 @@
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
       />
-      <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            v-model="user.username"
-            v-validate="'required'"
-            type="text"
-            class="form-control"
-            name="username"
-          />
-          <div
-            v-if="errors.has('username')"
-            class="alert alert-danger"
-            role="alert"
-          >Username is required!</div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            v-model="user.password"
-            v-validate="'required'"
-            type="password"
-            class="form-control"
-            name="password"
-          />
-          <div
-            v-if="errors.has('password')"
-            class="alert alert-danger"
-            role="alert"
-          >Password is required!</div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
-          </button>
-        </div>
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
+      <form name="form" @submit.prevent="handleRegister">
+        <div v-if="!successful">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              v-model="user.username"
+              v-validate="'required|min:3|max:20'"
+              type="text"
+              class="form-control"
+              name="username"
+            />
+            <div
+              v-if="submitted && errors.has('username')"
+              class="alert-danger"
+            >{{errors.first('username')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              v-model="user.email"
+              v-validate="'required|email|max:50'"
+              type="email"
+              class="form-control"
+              name="email"
+            />
+            <div
+              v-if="submitted && errors.has('email')"
+              class="alert-danger"
+            >{{errors.first('email')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              v-model="user.password"
+              v-validate="'required|min:6|max:40'"
+              type="password"
+              class="form-control"
+              name="password"
+            />
+            <div
+              v-if="submitted && errors.has('password')"
+              class="alert-danger"
+            >{{errors.first('password')}}</div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">Sign Up</button>
+          </div>
         </div>
       </form>
+
+      <div
+        v-if="message"
+        class="alert"
+        :class="successful ? 'alert-success' : 'alert-danger'"
+      >{{message}}</div>
     </div>
-  </div>
+    </div>
   </div>
 </template>
 
 <script>
 import User from '../models/user';
-// import AuthService from '../services/auth.service';
+
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     return {
-      user: new User('', ''),
-      loading: false,
+      user: new User('', '', ''),
+      submitted: false,
+      successful: false,
       message: ''
     };
-    
   },
   computed: {
-    currentUser() {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+     currentUser() {
       return this.$store.state.auth.user;
     },
     showAdminBoard() {
@@ -128,12 +145,9 @@ export default {
       }
 
       return false;
-    },
-    loggedIn() {
-      return this.$store.state.loggedIn;
     }
   },
-  created() {
+  mounted() {
     if (this.loggedIn) {
       this.$router.push('/profile');
     }
@@ -143,25 +157,22 @@ export default {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     },
-    handleLogin() {
-      this.loading = true;
-      this.$validator.validateAll().then(isValid => {
-        if (!isValid) {
-          this.loading = false;
-          return;
-        }
-
-        if (this.user.username && this.user.password) {
-          this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              this.$router.push('/profile');
+    handleRegister() {
+      this.message = '';
+      this.submitted = true;
+      this.$validator.validate().then(isValid => {
+        if (isValid) {
+          this.$store.dispatch('auth/register', this.user).then(
+            data => {
+              this.message = data.message;
+              this.successful = true;
             },
             error => {
-              this.loading = false;
               this.message =
                 (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
+              this.successful = false;
             }
           );
         }

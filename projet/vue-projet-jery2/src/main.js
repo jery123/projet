@@ -23,6 +23,32 @@ Vue.use(MdContent)
 Vue.use(MdTabs)
 /*Dash*/
 
+
+//login
+
+import store from './store';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import VeeValidate from 'vee-validate';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {
+  faHome,
+  faUser,
+  faUserPlus,
+  faSignInAlt,
+  faSignOutAlt
+} from '@fortawesome/free-solid-svg-icons';
+
+library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
+
+Vue.config.productionTip = false;
+
+Vue.use(VeeValidate);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+//end login
+
+
 // router setup
 //import routes from "./routes/routes";
 
@@ -79,7 +105,7 @@ Vue.use(IconsPlugin)
 import { BIcon } from 'bootstrap-vue'
 Vue.component('b-icon', BIcon)
 
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import i18n from './plugins/i18n'
 
@@ -88,5 +114,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

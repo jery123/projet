@@ -47,12 +47,18 @@
                   <!-- <md-input v-model="produit.uniteDeMesure" type="text"></md-input> -->
               <!-- </md-field> -->
               </div> 
-                  <div class="md-layout-item md-small-size-100 ">
+                  <div class="md-layout-item md-small-size-50 ">
               <md-field>
                   <label>Description</label>
                   <!-- <v-select :options="['Kg', 'Litre', 'Cageot', 'Sacs']" v-model="produit.uniteDeMesure"></v-select> -->
                   <md-input v-model="produit.description" type="text"></md-input>
               </md-field>
+              </div> 
+                <div class="md-layout-item md-small-size-50 ">
+                 <md-field>
+                       <label>Uniquement les images</label>
+                        <md-file v-model="image" accept="image/*" />
+                 </md-field>
               </div> 
           <div class="md-layout-item md-size-100 text-right">
             <md-button   class="md-danger md-round" :href="'/dashboard-producteur'">Annuler </md-button>
