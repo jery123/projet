@@ -16,13 +16,13 @@ exports.create = (req, res) => {
     const produit = {
         
         prodId: req.body.prodId,
-        imgId: req.body.imgId,
+        image: req.body.image,
         nom: req.body.nom,
         description: req.body.description,
-      published: req.body.published ? req.body.published : false,
-      quantité: req.body.quantité,
-      prixUnitaire: req.body.prixUnitaire,
-      uniteDeMesure: req.body.uniteDeMesure,
+        published: req.body.published ? req.body.published : false,
+        quantité: req.body.quantité,
+        prixUnitaire: req.body.prixUnitaire,
+        uniteDeMesure: req.body.uniteDeMesure,
     };
 
      // Save Product in the database

@@ -1,36 +1,34 @@
 <template>
-<div v-if="currentProduit">
-  <!-- <div v-if="currentProduit" class="edit-form"> -->
+  <div v-if="currentProduit" >
     <!-- <h4>Produit</h4> -->
-    <form>
-     
- <md-card>
-   <md-card-header :data-background-color="dataBackgroundColor">
-          <h4 class="title">Modification d'un produit </h4>
-    </md-card-header>
-    <md-card-content>
-      <!-- <div class="md-layout">  -->
-         <div class="md-layout-item   ">
-           <md-field>
-              <label>Nom</label>
-              <md-input v-model="currentProduit.nom" type="text"></md-input>
-           </md-field>
-         </div>
-            
-           <div class="md-layout-item   ">
-             <md-field>
-               <label>Quantité</label>
-               <md-input v-model="currentProduit.quantité" type="number"></md-input>
-             </md-field>
-           </div> 
-           <div class="md-layout-item   ">
-             <md-field>
-               <label>Prix Unitaire</label>
-               <md-input v-model="currentProduit.prixUnitaire" type="number"></md-input>
-             </md-field>
-           </div> 
-              <div class="md-layout-item   md-size-50">
-                     <md-field>
+<form>
+   <md-card>
+        <md-card-header :data-background-color="dataBackgroundColor">
+               <h4 class="title">Modification du produit </h4>
+         </md-card-header>
+        <md-card-content>
+           <div class="md-layout"> 
+              <div class="md-layout-item md-small-size-100 md-size-50">
+                <md-field>
+                   <label>Nom</label>
+                   <md-input v-model="currentProduit.nom" type="text"></md-input>
+                </md-field>
+              </div>
+                         
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                    <label>Quantité</label>
+                    <md-input v-model="currentProduit.quantité" type="number"></md-input>
+                  </md-field>
+                </div> 
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                    <label>Prix Unitaire</label>
+                    <md-input v-model="currentProduit.prixUnitaire" type="number"></md-input>
+                  </md-field>
+                </div> 
+                  <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
                          <label for="movie">Unité de mesure</label>
            <md-select v-model="currentProduit.uniteDeMesure" name="movie" id="movie">
              <md-option value="kg">Kg</md-option>
@@ -39,81 +37,30 @@
              <md-option value="sacs">Sacs</md-option>
             </md-select>
          </md-field>
-                        </div> 
-           <md-field>
-           <div class="md-layout-item   ">
-              <label><strong>Status:</strong></label>
-                {{ currentProduit.published ? "Published" : "Pending" }}
-              </div>
-              </md-field>
-           <!-- <div class="md-layout-item md-size-100 text-right">
-                <md-button class="md-danger" @click="notifyVue('top','left')"  data-dismiss="modal">Fermer</md-button>
-                <md-button class="md-success" @click="saveProduit" data-toggle="modal"  data-target="#cOK"  >Enregistrer </md-button>
+                  </div> 
                 
-                
-                      <div class="modal fade" id="cOK" tabindex="-1" role="dialog" aria-hidden="true">
-                             <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                           <div class="modal-header">
-                                                  <h5 class="modal-title" id="regisProd" color="black">Validation !</h5>
-                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <h4>Produit créer avec succès ! </h4>
-            
-                                             </div>
-                                             <div class="modal-footer">
-                                                <md-button class="md-info" @click="newProduit" >OK</md-button>                
-                                             </div>
-                                       </div>
-                               </div>
-                        </div>
-                         </div> 
-                       </div> -->
-         
-            
-         </md-card-content>
-       </md-card>        
-
-
-
-      <!-- <div class="form-group">
-        <label for="nom">Nom</label>
-        <input type="text" class="form-control" id="nom"
-          v-model="currentProduit.nom"
-        />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description"
-          v-model="currentProduit.description"
-        />
-      </div>
-        <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description"
-          v-model="currentProduit.description"
-        />
-      </div>
-
-      <div class="form-group">
-        <label><strong>Status:</strong></label>
-        {{ currentProduit.published ? "Published" : "Pending" }}
-      </div> -->
+                <div class="md-layout-item md-small-size-100 md-size-50">
+                  <md-field>
+                   <label><strong>Status:</strong></label>
+                     {{ currentProduit.published ? "Published" : "Pending" }}
+                     </md-field>
+                </div>
+             </div>
+          </md-card-content>
+        </md-card>        
     </form>
 
-    <md-button class="badge badge-primary mr-2"
+    <!-- <md-button class="badge badge-primary mr-2"
       v-if="currentProduit.published"
       @click="updatePublished(false)"
     >
       UnPublish
-    </md-button>
-    <md-button v-else class="badge badge-primary mr-2"
+    </md-button> 
+    <md-button v-else class="md-primary"
       @click="updatePublished(true)"
     >
       Publish
-    </md-button>
+    </md-button> -->
 
     <md-button class="md-danger"
       @click="deleteProduit"
@@ -123,41 +70,11 @@
 
     <md-button type="submit" class="md-success"
       @click="updateProduit"
-       data-toggle="modal" data-target="#modal"
     >
       Update
     </md-button>
-     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <!-- <h5 class="modal-title" id="regisProd" color="black">Enregistrement</h5> -->
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-            </div>
-            <div class="modal-body">
-
-        <p>{{ message }}</p>
-              <!-- <p>Texte du modal + choix et actions...</p> -->
-            </div>
-            <div class="modal-footer">
-               <md-card-content>
-          <div class="md-layout">
-            <div class="md-layout-item md-size-100">
-              <div class="places-buttons text-center">
-                <!-- <md-button class="md-danger" @click="notifyVue('top','left')"  data-dismiss="modal">Fermer</md-button> -->
-                <md-button class="md-success"  to="/dashboard-producteur">Ok </md-button> 
-              </div>
-            </div>
-          </div>
-        </md-card-content>
-             
-            </div>
-          </div>
-        </div>
-      </div>
-   
+    <p>{{ message }}</p>
   </div>
-
   <div v-else>
     <br />
     <p>Please click on a Produit...</p>
@@ -197,7 +114,7 @@ export default {
         quantité: this.currentProduit.quantité,
         prixUnitaire: this.currentProduit.prixUnitaire,
         uniteDeMesure:this.currentProduit.uniteDeMesure,
-        // published: status
+        published: status
       };
 
       ProduitDataService.update(this.currentProduit.id, data)
@@ -214,7 +131,7 @@ export default {
       ProduitDataService.update(this.currentProduit.id, this.currentProduit)
         .then(response => {
           console.log(response.data);
-          this.message = 'Le produit a été modifier avec succès ! ! ! ';
+          this.message = 'Le produit a été modifié avec succès!';
         })
         .catch(e => {
           console.log(e);

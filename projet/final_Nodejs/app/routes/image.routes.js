@@ -8,12 +8,17 @@ let routes = (app) => {
     //  router.get("/", controllers/home.getHome);
 
     //    router.post("/upload", upload.single("file"), upload.uploadFiles);
-
+    
     router.get("/", homeController.getHome);
-
+    
     router.post("/upload", upload.single("file"), uploadController.uploadFiles);
+    
+    router.get("/files", uploadController.getListFiles);
+    
+    router.get("/files/:name", uploadController.download);
+    
+    return app.use("/ap", router);
 
-    return app.use("/", router);
 };
 
 module.exports = routes;

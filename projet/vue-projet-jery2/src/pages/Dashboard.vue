@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="md-layout">
-      <div
+      <!-- <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
       >
       
@@ -28,9 +28,9 @@
             </div>
           </template>
         </chart-card>
-      </div>
+      </div> -->
       <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
       >
         <chart-card
           :chart-data="emailsSubscriptionChart.data"
@@ -42,19 +42,19 @@
           <template slot="content">
             <h4 class="title">Abonnement par courrier électronique</h4>
             <p class="category">
-              Last Campaign Performance
+              Performances les plus récentes
             </p>
           </template>
 
-          <template slot="footer">
+          <!-- <template slot="footer">
             <div class="stats">
               <md-icon>access_time</md-icon>
               updated 10 days ago
             </div>
-          </template>
+          </template> -->
         </chart-card>
       </div>
-      <div
+      <!-- <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
       >
         <chart-card
@@ -77,8 +77,8 @@
             </div>
           </template>
         </chart-card>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card data-background-color="green">
@@ -98,8 +98,8 @@
             </div>
           </template>
         </stats-card>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card data-background-color="orange">
@@ -122,8 +122,8 @@
             </div>
           </template>
         </stats-card>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card data-background-color="red">
@@ -143,8 +143,8 @@
             </div>
           </template>
         </stats-card>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card data-background-color="blue">
@@ -164,17 +164,30 @@
             </div>
           </template>
         </stats-card>
-      </div>
+      </div> -->
       <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
       >
         <md-card>
           <md-card-header data-background-color="orange">
-            <h4 class="title">Employees Stats</h4>
-            <p class="category">New employees on 15th September, 2016</p>
+            <h4 class="title">Liste des visiteurs</h4>
+            <p class="category">Potentiels clients</p>
           </md-card-header>
           <md-card-content>
-            <ordered-table table-header-color="orange"></ordered-table>
+            <simple-table table-header-color="orange"></simple-table>
+          </md-card-content>
+        </md-card>
+      </div>
+       <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
+      >
+        <md-card>
+          <md-card-header data-background-color="green">
+            <h4 class="title">Liste des agriculteurs</h4>
+            <p class="category">Personnes désirants vendre leurs produits </p>
+          </md-card-header>
+          <md-card-content>
+            <ordered-table table-header-color="green"></ordered-table>
           </md-card-content>
         </md-card>
       </div>
@@ -206,62 +219,64 @@
 
 <script>
 import {
-  StatsCard,
+  // StatsCard,
   ChartCard,
   NavTabsCard,
   NavTabsTable,
+  SimpleTable,
   OrderedTable
 } from "@/components";
 
 export default {
   components: {
-    StatsCard,
+    // StatsCard,
     ChartCard,
     NavTabsCard,
     NavTabsTable,
+    SimpleTable,
     OrderedTable
   },
   data() {
     return {
-      dailySalesChart: {
-        data: {
-          labels: ["M", "T", "W", "T", "F", "S", "S"],
-          series: [[12, 17, 7, 17, 23, 18, 38]]
-        },
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-          }
-        }
-      },
-      dataCompletedTasksChart: {
-        data: {
-          labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-          series: [[230, 750, 450, 300, 280, 240, 200, 190]]
-        },
+      // dailySalesChart: {
+      //   data: {
+      //     labels: ["M", "T", "W", "T", "F", "S", "S"],
+      //     series: [[12, 17, 7, 17, 23, 18, 38]]
+      //   },
+      //   options: {
+      //     lineSmooth: this.$Chartist.Interpolation.cardinal({
+      //       tension: 0
+      //     }),
+      //     low: 0,
+      //     high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      //     chartPadding: {
+      //       top: 0,
+      //       right: 0,
+      //       bottom: 0,
+      //       left: 0
+      //     }
+      //   }
+      // },
+      // dataCompletedTasksChart: {
+      //   data: {
+      //     labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
+      //     series: [[230, 750, 450, 300, 280, 240, 200, 190]]
+      //   },
 
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-          }
-        }
-      },
+      //   options: {
+      //     lineSmooth: this.$Chartist.Interpolation.cardinal({
+      //       tension: 0
+      //     }),
+      //     low: 0,
+      //     high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      //     chartPadding: {
+      //       top: 0,
+      //       right: 0,
+      //       bottom: 0,
+      //       left: 0
+      //     }
+      //   }
+      // },
       emailsSubscriptionChart: {
         data: {
           labels: [
@@ -278,14 +293,14 @@ export default {
             "No",
             "De"
           ],
-          series: [[0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0]]
+          series: [[0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0]]
         },
         options: {
           axisX: {
             showGrid: false
           },
           low: 0,
-          high: 1000,
+          high: 12,
           chartPadding: {
             top: 0,
             right: 5,

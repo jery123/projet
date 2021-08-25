@@ -1,7 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     const Produit = sequelize.define("produit", {
       prodId: {
-          type: Sequelize.INTEGER,
+          type: DataTypes.INTEGER,
           defaultValue: 1,
         //   allowNull: false,
           references: {
@@ -11,38 +11,40 @@ module.exports = (sequelize, Sequelize) => {
           onUpdate: 'cascade',
           onDelete: 'cascade'
       },
-        imgId: {
-            type: Sequelize.INTEGER,
-            defaultValue: 1,
-            // allowNull: false,
-            references: {
-                model: 'images',
-                key: 'id'
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
+        image: {
+            type: DataTypes.STRING,
+            // defaultValue: 1,
+            // // allowNull: false,
+            // references: {
+            //     model: 'images',
+            //     key: 'id'
+            // },
+            // onUpdate: 'cascade',
+            // onDelete: 'cascade'
         },
-      
+        // Data: {
+        //     type: DataTypes.BLOB("long"),
+        //   },
         nom: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             defaultValue: false,
             allowNull: false
           },
       description: {
-          type: Sequelize.STRING,
+          type: DataTypes.STRING,
           allowNull: true
       },
       published: {
-        type: Sequelize.BOOLEAN
+        type: DataTypes.BOOLEAN
         },
         quantité: {
-            type: Sequelize.INTEGER
+            type: DataTypes.INTEGER
         },
         prixUnitaire: {
-            type: Sequelize.INTEGER
+            type: DataTypes.INTEGER
             },
             uniteDeMesure: {
-                type: Sequelize.ENUM('Kg','Litre','Cageot', 'Sacs')
+                type: DataTypes.ENUM('Kg','Litre','Cageot', 'Sacs', 'Régime')
                 },
                    
     },

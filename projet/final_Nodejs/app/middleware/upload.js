@@ -13,7 +13,8 @@ var storage = multer.diskStorage({
     cb(null, __basedir + "/ressource/static/asserts/uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-farmer-${file.originalname}`);
+    cb(null, `${file.originalname}`);
+ // cb(null, `${Date.now()}-farmer-${file.originalname}`);
   },
 });
 

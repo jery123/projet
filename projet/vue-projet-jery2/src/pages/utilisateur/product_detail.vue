@@ -1,10 +1,11 @@
 <template>
   <!-- <div v-if="produit" class="section"> -->
 <div class="section"> 
-
+<div v-if="currentProduit"  ></div>
 
 
   <!-- ======= Header ======= -->
+<div>
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center">
 
@@ -14,23 +15,23 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto " href="#produits">Produits</a></li>
-          <!-- <li>
+          <li><a class="nav-link scrollto" href="#about">A propos</a></li>
+          <!-- <li><a class="nav-link scrollto " href="#produits">Produits</a></li> -->
+           <li>
              <div class="navbar-item shopping-cart" @click="showCheckoutModal">
             <span class="icon">
-              <i class="fa fa-shopping-cart"></i>
+              <!-- <i class="fa fa-shopping-cart"></i> -->
             </span>
             <span :class="[numProductsAdded > 0 ? 'tag is-info' : '']">{{ numProductsAdded }}</span>
           </div>
-          </li> -->
-          <li class="dropdown"><a href="#"><span>Options</span> <i class="bi bi-chevron-down"></i></a>
+          </li> 
+          <!-- <li class="dropdown"><a href="#"><span>Options</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               
               <li><a href="/home">Déconnexion</a></li>
               <li><a href="#">Autre</a></li>
             </ul>
-          </li>
+          </li> -->
 
           <li class="dropdown"><a href="#"><span>Langue</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -39,9 +40,15 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+           <li class="nav-item">
+          <a class="nav-link" href @click.prevent="logOut">
+            <font-awesome-icon icon="sign-out-alt" />Déconnexion
+          </a>
+        </li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+      </nav>
+      <!-- .navbar -->
 
       <div class="header-social-links d-flex align-items-center">
         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -50,9 +57,10 @@
         <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
       </div>
     </div>
-  </header><!-- End Header -->
+  </header>
+  <!-- End Header -->
 
-  <main id="main">
+  <main id="main"> 
 
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
@@ -72,7 +80,7 @@
 
 
 
-<div v-if="currentProduit"  ></div>
+
 
 
  <div class="content">
@@ -108,17 +116,22 @@
              <strong>Prix Unitaire : </strong>
           {{ currentProduit.prixUnitaire}} F CFA
             </h2>
-
-          </div>
+               </div>
           </md-card-content>
             </md-card>
+            <div class="md-layout-item md-medium-size-100 md-size-66">
+
+<div><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15919.161935660624!2d9.753714869775381!3d4.063083000000017!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10610db182c1e59d%3A0x3ed063cb19b7feac!2sBoulangerie%20Saker%2C%20Beedi%20Douala!5e0!3m2!1sen!2scm!4v1629710901798!5m2!1sen!2scm" width="1000" height="800" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+       
+      </div>
        </div>
-      <div class="md-layout-item md-medium-size-100 md-size-33">
+       <div class="md-layout-item md-medium-size-100 md-size-33">
       
-<figure class="card-image is-480x480 column is-one-thirds">
-          <img src="https://bulma.io/images/placeholders/480x480.png">
+<figure width="480" height="480" class="card-image is-480x480 column is-one-thirds">
+          <img  :src="'http://localhost:8083/ap/files/'+ currentProduit.image " class="rounded img-thumbnail" >
         </figure>
       </div>
+       
     </div>
   </div>
 
@@ -153,7 +166,7 @@
 
       </div>
       
-  
+  </div>
     </div>
   
 </template>
@@ -162,16 +175,26 @@
 
 
 import ProduitDataService from "../../services/ProduitDataService";
-
+import User from '../../models/user';
 export default {
   name: "product_detail-id",
   data() {
     return {
       currentProduit: null,
+      // message: '',
+        user: new User('', '', ''),
+      submitted: false,
+      successful: false,
       message: ''
     };
   },
+  
   methods: {
+     logOut() {
+      // this.$store.dispatch('auth/logout');
+      this.$router.push('/home');
+    },
+   
     getProduit(id) {
       ProduitDataService.get(id)
         .then(response => {
@@ -229,6 +252,7 @@ export default {
     }
   },
   mounted() {
+  
     this.message = '';
     this.getProduit(this.$route.params.id);
   }

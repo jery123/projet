@@ -1,10 +1,10 @@
 <template>
   <div v-if="currentProduit" >
-    <h4>Produit</h4>
+    <!-- <h4>Produit</h4> -->
 <form>
    <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
-               <h4 class="title">Ajout d'un produit </h4>
+               <h4 class="title">Modification du produit </h4>
          </md-card-header>
         <md-card-content>
            <div class="md-layout"> 
@@ -42,7 +42,7 @@
                 <div class="md-layout-item md-small-size-100 md-size-50">
                   <md-field>
                    <label><strong>Status:</strong></label>
-                     {{ currentProduit.published ? "Published" : "Pending" }}
+                     {{ currentProduit.published ? "Publier" : "Non Publier" }}
                      </md-field>
                 </div>
              </div>
@@ -59,7 +59,7 @@
     <md-button v-else class="md-primary"
       @click="updatePublished(true)"
     >
-      Publish
+      Publier
     </md-button>
 
     <md-button class="md-danger"
@@ -131,7 +131,7 @@ export default {
       ProduitDataService.update(this.currentProduit.id, this.currentProduit)
         .then(response => {
           console.log(response.data);
-          this.message = 'The Produit was updated successfully!';
+          this.message = 'Le produit a été modifié avec succès!';
         })
         .catch(e => {
           console.log(e);

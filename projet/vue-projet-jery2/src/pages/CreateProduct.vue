@@ -13,7 +13,7 @@
               <md-field>
                  <label>Nom</label>
                  <md-input v-model="produit.nom" type="text" :rules="[(v) => !!v || 'Title is required']"></md-input>
-              </md-field>
+               </md-field>
             </div>
                                                                                                              
               <div class="md-layout-item md-small-size-100 md-size-50">
@@ -32,17 +32,15 @@
               <md-field>
                   <!-- <label>Unité de mesure</label> -->
                    <!-- <md-field> -->
-    <label for="movie">Unité de mesure</label>
-    <md-select v-model="produit.uniteDeMesure" name="movie" id="movie" :rules="[(v) => !!v || 'Unité de mesure is required']">
-      <md-option value="kg">Kg</md-option>
-      <md-option value="litre">Litre</md-option>
-      <md-option value="cageot">Cageot</md-option>
-      <md-option value="sacs">Sacs</md-option>
-      <!-- <md-option value="godfellas">Godfellas</md-option>
-      <md-option value="pulp-fiction">Pulp Fiction</md-option>
-      <md-option value="scarface">Scarface</md-option> -->
-    </md-select>
-  </md-field>
+                        <label for="movie">Unité de mesure</label>
+                        <md-select v-model="produit.uniteDeMesure" name="movie" id="movie" :rules="[(v) => !!v || 'Unité de mesure is required']">
+                         <md-option value="kg">Kg</md-option>
+                         <md-option value="litre">Litre</md-option>
+                         <md-option value="cageot">Cageot</md-option>
+                         <md-option value="sacs">Sacs</md-option>
+                       
+                       </md-select>
+                     </md-field>
                   <!-- <v-select :options="['Kg', 'Litre', 'Cageot', 'Sacs']" v-model="produit.uniteDeMesure"></v-select> -->
                   <!-- <md-input v-model="produit.uniteDeMesure" type="text"></md-input> -->
               <!-- </md-field> -->
@@ -54,12 +52,25 @@
                   <md-input v-model="produit.description" type="text"></md-input>
               </md-field>
               </div> 
+
+
+
+
+              <!-- IMAGE -->
                 <div class="md-layout-item md-small-size-50 ">
-                 <md-field>
-                       <label>Uniquement les images</label>
-                        <md-file v-model="image" accept="image/*" />
+                 <md-field >
+                       <label>Image du produit</label>
+                       <md-file v-model="produit.image" accept="image/*" ref="file" @change="selectImage"/>
+                       <!-- <input type="file" accept="image/*" ref="file" @change="selectImage"/> -->
                  </md-field>
               </div> 
+
+
+             <!-- END IMAGE -->
+
+
+
+
           <div class="md-layout-item md-size-100 text-right">
             <md-button   class="md-danger md-round" :href="'/dashboard-producteur'">Annuler </md-button>
               <md-button  @click="saveProduit" class="md-success md-round">Ajouter</md-button>
@@ -109,6 +120,7 @@
 </template>
 <script>
 import ProduitDataService from "../services/ProduitDataService";
+import UploadService from "../services/UploadFilesService";
 
 export default {
   name: "edit-profil-prod",
@@ -124,7 +136,7 @@ export default {
       produit: {
         id:null,
         prodId:"",
-        imgId:"",
+        image:"",
         nom: "",
         description: "",
         published: false,
@@ -134,14 +146,34 @@ export default {
         // uniteDeMesure: ['Kg','Litre','Cageot', 'Sacs'],
       },
         currentProduit: null,
+              imageInfos: [],
        submitted: false
 };
 
     },
      methods: {
+        selectImage() {
+      this.currentImage = this.$refs.file.files.item(0);
+      // this.produit.image=this.currentImage.split('.').slice(0, -1).join('.');
+      this.upload(this.currentImage)
+   },
+   upload() {
+     UploadService.upload(this.currentImage)
+        .then((response) => {
+          console.log(response.this.currentImage);
+        })
+        .then((images) => {
+          this.image = images.data;
+        })
+        .catch(e => {
+          console.log(e);
+          this.currentImage = undefined;
+        });
+    },
     saveProduit() {
       var data = {
         // prodId=this.get(farmer.Id),
+        image:this.produit.image,
         nom:this.produit.nom,
         description: this.produit.description,
         quantité: this.produit.quantité,
@@ -159,6 +191,7 @@ export default {
           console.log(e);
         });
         
+
     },
     
     newProduit() {

@@ -16,6 +16,10 @@ import Notifications from "@/pages/Notifications.vue";
 import commande from "@/pages/NotificationCommandes.vue";
 import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import Dashboard_client from "@/pages/Layout/DashboardLayoutUser.vue";
+// import { createRouter, createWebHashHistory } from 'vue-router'
+// import {  createWebHashHistory } from 'vue-router'
+// import CartList from '../components/cart/Cart_List.vue';
+// import ProductList from '../components/product/Product_List.vue';
 
 Vue.use(VueRouter)
 
@@ -78,7 +82,13 @@ const routes = [
         path: "upgrade",
         name: "Version plus récente",
         component: UpgradeToPRO
-      }
+      },
+      {
+        path: "/produits/:id",
+        name: "produit-details",
+        component: () => import("../pages/utilisateur/Produit")
+      },
+
     ]
   
   },
@@ -110,7 +120,7 @@ const routes = [
   },
   
    {
-    path: "/dashboard-producteur",
+    path: "/dashboard-producteur/:id",
     name: "Dashboard utilisateur",
      component: Dashboard_client,
      children: [
@@ -144,6 +154,12 @@ const routes = [
         name: 'Commandes sur vos produits',
         component: () => import('@/pages/NotificationProd.vue')
        },
+       {
+        path: "/produitfarm/:id",
+        name: "produitfarm-details",
+        component: () => import("../pages/utilisateur/ProduitFarm")
+      },
+       
     ]
   },
    
@@ -153,19 +169,31 @@ const routes = [
     *                                                *
     * ===============================================*
     */
+  //  {
+  //   path: '/inventory',
+  //   component: ProductList
+  // },
+  // {
+  //   path: "/image1",
+  //   name: "image",
+  //   component: () => import("../pages/Image")
+  // },
+  // {
+  //   path: '/cart',
+  //   component: CartList
+  // },
+  // {
+  //   path: '/in',
+  //   redirect: '/inventory'
+  // },
    
-   {
-    path: "/produits/:id",
-    name: "produit-details",
-    component: () => import("../pages/utilisateur/Produit")
-  },
+ 
   {
-    path: "/produitfarm/:id",
-    name: "produitfarm-details",
-    component: () => import("../pages/utilisateur/ProduitFarm")
+    path: "/image",
+    name: "image",
+    component: () => import("../components/UploadImage")
   },
    
-  
 //=======================================END
    
    
@@ -235,9 +263,14 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
+  // history: createWebHashHistory(),
   base: process.env.BASE_URL,
   routes
 })
+// const router1 = createRouter({
+//   history: createWebHashHistory(),
+//   routes
+// })
 
 export default router
 router.beforeEach((to, from, next) => {

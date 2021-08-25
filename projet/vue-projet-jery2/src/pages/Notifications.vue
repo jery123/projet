@@ -1,22 +1,24 @@
- <template>
-   
-
-  <div>
-   
-       <md-card> <div class="list row">
-       
-         <md-card-header data-background-color="green">
-            <h4 class="title">Vos produits</h4>
+<template>
+  <div class="content">
+    <div class="md-layout">
+      <div class="md-layout-item">
+        <md-card>
+          <md-card-header data-background-color="green">
+            <h4 class="title">Notifications des produits</h4>
             <p class="category">
-             <!-- Consultez vos notifications chaque jour<i class="fa fa-heart heart"></i> -->
+             Consultez vos notifications chaque jour<i class="fa fa-heart heart"></i>
             </p>
           </md-card-header>
-          <!-- <md-card-header data-background-color="green"> 
-           <h4>Vos produits</h4>
-          </md-card-header> -->
-           <!-- <md-card-content> -->
+          <md-card-content>
+            <div class="md-layout">
+            
               <div class="md-layout-item md-medium-size-100">
-                <ul class="list-group">
+               
+              
+<!-- <div class="row row-cols-1 row-cols-md-3 g-4">
+  
+  </div> -->
+      <ul class="list-group">
                   <li class="list-group-item"
                     :class="{ active: index == currentIndex }"
                     v-for="(produit, index) in produits"
@@ -27,51 +29,75 @@
                   {{ produit.nom }}
                   </li>
                 </ul>
-                </div>
+
+    </div>
+    <!-- END of list -->
+
+    <div class="col-md-6">
+      <div v-if="currentProduit">
+        <h4>Produit</h4>
+       <div class="md-layout-item">
+                <md-field>
+                 <label><strong>Nom:</strong></label> {{ currentProduit.nom }}
+                </md-field>
+        </div> 
+        <div class="md-layout-item">
+                <md-field>
+                 <label><strong>Description:</strong></label> {{ currentProduit.description }}
+                </md-field>
+        </div> 
+         <div class="md-layout-item">
+                <md-field>
+                  <label><strong>Quantité:</strong></label> {{ currentProduit.quantité }}
+                </md-field>
+        </div> 
+         <div class="md-layout-item">
+                <md-field>
+                  <label><strong>Prix Unitaire:</strong></label> {{ currentProduit.prixUnitaire }}
+                </md-field>
+        </div> 
+         <div class="md-layout-item">
+                <md-field>
+                <label><strong>Unité de mesure:</strong></label> {{ currentProduit.uniteDeMesure }}
+               </md-field>
+        </div> 
+         <div class="md-layout-item">
+                <md-field>
+                 <label><strong>Status:</strong></label> {{ currentProduit.published ? "Published" : "Pending" }}
+                </md-field>
+        </div> 
+        <md-button class="md-primary md-round"
+          :href="'/Produits/' + currentProduit.id"
+        >
+          Modifier
+        </md-button>
+        <!-- <md-button class="md-round md-danger" @click="removeAllProduits" >Supprimer</md-button> -->
       </div>
-    <!-- </md-card-content> -->
-      <div class="col-md-6">
-         <div v-if="currentProduit">
-           <p>Produit</p>
-             <div>
-               <label><strong>Nom:</strong></label> {{ currentProduit.nom }}
-             </div>
-             <div>
-                <label><strong>Description:</strong></label> {{ currentProduit.description }}
-             </div>
-             <div>
-                <label><strong>Status:</strong></label> {{ currentProduit.published ? "Published" : "Pending" }}
+      <div v-else>
+        <br />
+        <p>S'il vous plait cliquer sur un Produit...</p>
+        
+      </div>
+
+              
               </div>
 
-                <md-button class="md-info"  :href="'/produitfarm/' + currentProduit.id" > Edit </md-button>
-                                                
-
-                <md-button class="md-round md-danger" @click="removeAllProduits" >Supprimer</md-button>
-      
-         </div>
-          <!-- </md-card-content> -->
-         <div v-else>
-          <br />
-           <p>S'il vous plait cliquer sur un Produit...</p>
-        
-          </div>
-  
+              <div class="md-layout-item md-size-100">
+                <div class="places-buttons text-center">
+              
+                </div>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
-   </md-card> 
- <md-button type="button"  class="md-success" :href="'/create-product'">Ajouter un produit </md-button>
-    </div>
-
-<!--===============END Vos produits ================-->
-
-
-
-
-       
+  </div>
 </template>
 
 <script>
 import ProduitDataService from '../services/ProduitDataService';
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
   export default {
         data() {
 
@@ -79,7 +105,7 @@ import ProduitDataService from '../services/ProduitDataService';
      produits: [],
       currentProduit: null,
       currentIndex: -1,
-      nom: ""
+      nom: "",
     };
 
   },
@@ -101,7 +127,7 @@ import ProduitDataService from '../services/ProduitDataService';
       this.currentIndex = -1;
     },
  setActiveProduit(produit, index) {
-      this.currentProduct = produit;
+      this.currentProduit = produit;
       this.currentIndex = index;
     },
      removeAllProduits() {
@@ -125,8 +151,28 @@ import ProduitDataService from '../services/ProduitDataService';
         });
     
   },
-    
+      editProduit(id) {
+      this.$router.push({ name: "produitfarm-details", params: { id: id } });
+    },
+      deleteProduit(id) {
+      ProduitDataService.delete(id)
+        .then(() => {
+          this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
+  
+    getDisplayProduit(produit) {
+      return {
+        id: produit.id,
+        nom: produit.nom.length > 30 ? produit.nom.substr(0, 30) + "..." : produit.nom,
+        description: produit.description.length > 30 ? produit.description.substr(0, 30) + "..." : produit.description,
+        status: produit.published ? "Published" : "Pending",
+      };
+    },
    mounted() {
     this.retrieveProduits();
   }
@@ -134,6 +180,11 @@ import ProduitDataService from '../services/ProduitDataService';
 </script>
 
 <style scoped>
-
-
+*{
+  font-family: 'Times New Roman', Times, serif;
+}
+.list {
+  max-width: 750px;
+}
 </style>
+

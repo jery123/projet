@@ -55,15 +55,14 @@
               >
                 <div class="md-list-item-content">
                   <drop-down>
-                    <md-button
-                      slot="title"
-                      class="md-button md-just-icon md-simple"
-                      data-toggle="dropdown"
-                    >
-                      <md-icon>notifications</md-icon>
-                      <span class="notification">6</span>
-                      <p class="hidden-lg hidden-md">Notifications</p>
-                    </md-button>
+                     <md-button slot="title" class="md-button md-just-icon md-simple" data-toggle="dropdown" >
+                         <sidebar-link to="/notifications">
+                       <md-icon>notifications</md-icon>
+                          <!-- <span class="notification">6</span> -->
+                          <p class="hidden-lg hidden-md">Notifications</p>
+                           </sidebar-link>
+                       </md-button>
+                    
                     <ul class="dropdown-menu dropdown-menu-right">
                       <li><a href="#">Mike John responded to your email</a></li>
                       <li><a href="#">You have 5 new tasks</a></li>
@@ -76,7 +75,7 @@
               </a>
             </li>
 
-            <md-list-item href="/user">
+            <md-list-item href="/users">
               <i class="material-icons">person</i>
               <p class="hidden-lg hidden-md">Profile</p>
             </md-list-item>

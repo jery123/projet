@@ -34,10 +34,10 @@
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
       </sidebar-link> -->
-      <!-- <sidebar-link to="/maps">
+      <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
-        <p>Maps</p>
-      </sidebar-link> -->
+        <p>Nos locaux</p>
+      </sidebar-link>
       <sidebar-link to="/commandes">
         <md-icon>notifications</md-icon>
         <p>Notifications</p>

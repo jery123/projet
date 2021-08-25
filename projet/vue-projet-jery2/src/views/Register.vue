@@ -106,7 +106,12 @@
         v-if="message"
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
+      >{{message}}
+      <p>
+ <md-button to="/client" class="md-success md-round">OK</md-button>
+                </p>
+        </div>
+        
     </div>
     </div>
   </div>

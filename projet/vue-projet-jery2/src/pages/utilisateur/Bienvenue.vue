@@ -34,6 +34,17 @@
           <li><a class="nav-link scrollto" href="#about">Nos services</a></li>
           <li><a class="nav-link scrollto" href="#vous_etes">Se lancer</a></li>
           <li><a class="nav-link scrollto" href="https://jangolo.cm/contact">Contact</a></li>
+            <!-- <li class="dropdown"><a href="#"><span>Langue</span> <i class="bi bi-chevron-down"></i></a>
+            <ul @change="handleChange(event)">
+              <li><a href="#">Français</a></li>
+              <li><a href="#">Anglais</a></li>
+            </ul>
+          </li> -->
+          <select class="custom-select" @change="handleChange($event)">
+          <option value="en">Anglais</option>
+          <option value="fr">Français</option>
+          <option value="ch">Chinois</option>
+            </select>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -108,7 +119,7 @@
                                                         <div class="md-layout-item md-small-size-100 md-size-50">
                                                           <md-field>
                                                              <label>Email Address</label>
-                                                             <md-input v-model="client.email" type="email"></md-input>
+                                                             <md-input v-model="client.email"  v-validate="'required|email|max:50'" type="email"></md-input>
                                                            </md-field>
                                                         </div>
                                                         <div class="md-layout-item md-small-size-100 md-size-50">
@@ -134,7 +145,7 @@
                                                                <md-button class="md-success" @click="saveClient" data-toggle="modal"  data-target="#cOK"  >Enregistrer </md-button>
                                                                
                                                                
-                                                                     <div class="modal fade" id="cOK" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                     <div  v-if="currentClient" class="modal fade" id="cOK" tabindex="-1" role="dialog" aria-hidden="true">
                                                                             <div class="modal-dialog" role="document">
                                                                                      <div class="modal-content">
                                                                                           <div class="modal-header">
@@ -147,7 +158,7 @@
             
                                                                                             </div>
                                                                                             <div class="modal-footer">
-                                                                                               <md-button class="md-info" @click="newClient" :href="'/client'" >OK</md-button>                
+                                                                                               <md-button class="md-info" @click="newClient" :href="'/client/' + currentClient.id" >OK</md-button>                
                                                                                             </div>
                                                                                       </div>
                                                                               </div>
@@ -237,7 +248,7 @@
                                                             <div class="md-layout-item md-size-100 text-right">
                                                                <md-button class="md-danger" @click="notifyVue('top','left')"  data-dismiss="modal">Fermer</md-button>
                                                                <md-button class="md-success" @click="saveFarmer"  data-toggle="modal"  data-target="#fOK" >Enregistrer </md-button> 
-                                                                 <div class="modal fade" id="fOK" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                 <div  v-if="currentProducteur" class="modal fade" id="fOK" tabindex="-1" role="dialog" aria-hidden="true">
                                                                             <div class="modal-dialog" role="document">
                                                                                      <div class="modal-content">
                                                                                           <div class="modal-header">
@@ -250,7 +261,7 @@
             
                                                                                             </div>
                                                                                             <div class="modal-footer">
-                                                                                               <md-button class="md-info" @click="newFarmer" :href="'/dashboard-producteur'">OK</md-button>                
+                                                                                               <md-button class="md-info" @click="newFarmer" :href="'/dashboard-producteur/' + currentProducteur.id">OK</md-button>                
                                                                                             </div>
                                                                                       </div>
                                                                               </div>
@@ -374,11 +385,17 @@ export default {
         is_delete: false,
         role: false
       },
+       currentClient: null,
+       currentProducteur: null,
 // submitted: false
     };
 
   },
   methods: {
+    handleChange(event){
+     localStorage.setItem('lang', event.target.value);
+     window.location.reload();
+    },
     saveFarmer() {
       var data = {
         nom:this.farmer.nom,
@@ -394,12 +411,18 @@ export default {
       FarmerDataService.create(data)
         .then(response => {
           this.farmer.id = response.data.id;
+          //  this.currentProducteur.id = response.data.id;
           console.log(response.data);
           // this.submitted = true;
         })
         .catch(e => {
           console.log(e);
         });//================end====================//
+    },
+     refreshList() {
+      this.currentClient= null;
+      this.currentProducteur= null;
+       
     },
 
         //================client===============//
@@ -416,6 +439,7 @@ export default {
       ClientDataService.create(data)
         .then(response => {
           this.client.id = response.data.id;
+           this.currentClient.id = response.data.id;
           console.log(response.data);
           // this.submitted = true;
         })
