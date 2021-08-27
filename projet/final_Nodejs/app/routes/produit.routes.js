@@ -13,7 +13,7 @@ module.exports = app => {
     router.get("/published", produits.findAllPublished);
   
     // Retrieve all unpublished produits
-    router.get("/unpublished", produits.findAllUnPublished);
+    router.get("/myprod/:id", produits.myProd);
   
     // Retrieve a single Produit with id
     router.get("/:id", produits.findOne);

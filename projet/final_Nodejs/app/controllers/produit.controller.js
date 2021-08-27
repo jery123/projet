@@ -120,6 +120,31 @@ exports.delete = (req, res) => {
         });
       });
 };
+
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Produit.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Produit supprimer avec succès!"
+        });
+      } else {
+        res.send({
+          message: `Impossible de supprimer le produit dont l\'id=${id}. Maybe Tutorial was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Impossible de supprimer le produit dont l\' id=" + id
+      });
+    });
+};
   
 // Delete all Product from the database.
 exports.deleteAll = (req, res) => {
@@ -135,7 +160,7 @@ exports.deleteAll = (req, res) => {
           message:
             err.message || "Some error occurred while removing all produits."
         });
-      });
+      }); 
 };
   
 // Find all published Products
@@ -165,3 +190,36 @@ exports.findAllUnPublished = (req, res) => {
         });
       });
   };
+
+
+
+  //get all myproducts
+  exports.myProd = (req, res) => {
+    const id = req.params.id;
+  
+    Produit.findAll({
+      where: { prodId: id }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Produit supprimer avec succès!"
+          });
+        } else {
+          res.send({
+            message: `Impossible de supprimer le produit dont l\'id=${id}. Maybe Tutorial was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Impossible de supprimer le produit dont l\' id=" + id
+        });
+      });
+  };
+  
+
+
+
+  
+  //

@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
             // onUpdate: 'cascade',
             // onDelete: 'cascade'
         },
-        // Data: {
-        //     type: DataTypes.BLOB("long"),
-        //   },
+        Data: {
+            type: DataTypes.BLOB("long"),
+          },
         nom: {
             type: DataTypes.STRING,
             defaultValue: false,
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
             },
             uniteDeMesure: {
-                type: DataTypes.ENUM('Kg','Litre','Cageot', 'Sacs', 'Régime')
+                type: DataTypes.ENUM('Kg','Litre','Cageot', 'Sacs')
                 },
                    
     },

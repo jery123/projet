@@ -134,7 +134,7 @@ function initial() {
 
 //Pour l'image
 const dbimg = require("./app/models/images");
-dbimg.sequelize.sync( ).then(() => {
+dbimg.sequelize.sync({ force: false }).then(() => {
     console.log("Drop and re-sync db.");
   });
 
@@ -152,7 +152,7 @@ dbimg.sequelize.sync( ).then(() => {
   });
 
 const dbproduit = require("./app/models/produits");
-dbproduit.sequelize.sync({ force: false }).then(() => {
+dbproduit.sequelize.sync({ force: true }).then(() => {
     console.log("Drop and re-sync dbproduit.");
 });
 
