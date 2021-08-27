@@ -200,17 +200,9 @@ exports.findAllUnPublished = (req, res) => {
     Produit.findAll({
       where: { prodId: id }
     })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Produit supprimer avec succès!"
-          });
-        } else {
-          res.send({
-            message: `Impossible de supprimer le produit dont l\'id=${id}. Maybe Tutorial was not found!`
-          });
-        }
-      })
+      .then(data => {
+      res.send(data);
+    })
       .catch(err => {
         res.status(500).send({
           message: "Impossible de supprimer le produit dont l\' id=" + id
