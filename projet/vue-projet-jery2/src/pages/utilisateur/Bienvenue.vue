@@ -90,8 +90,8 @@
                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                                   </div>
                                    <div class="modal-body">
-                                       <form>
-                                          <!-- <div  v-if="!submitted"> -->
+                                       <form :class="{ active: index == currentIndexp }">
+                                          <!-- <div  v-if="!submittedc"> -->
                                                <md-card>
                                                   <md-card-header :data-background-color="dataBackgroundColor">
                                                          <h4 class="title">Veuillez entrer vos information s'il vous plait !</h4>
@@ -188,8 +188,8 @@
                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                                   </div>
                                    <div class="modal-body">
-                                       <form>
-                                          <!-- <div v-if="!submitted"> -->
+                                       <form :class="{ active: index == currentIndex }">
+                                          <!-- <div v-if="!submittedp"> -->
                                                <md-card>
                                                   <md-card-header :data-background-color="dataBackgroundColor">
                                                          <h4 class="title">Veuillez entrer vos information s'il vous plait !</h4>
@@ -387,7 +387,11 @@ export default {
       },
        currentClient: null,
        currentProducteur: null,
-// submitted: false
+// submittedc: false,
+      // currentClient: null,
+       currentIndex: -1,
+      currentIndexp: -1,
+// submittedp: false
     };
 
   },
@@ -413,17 +417,23 @@ export default {
           this.farmer.id = response.data.id;
           //  this.currentProducteur.id = response.data.id;
           console.log(response.data);
-          // this.submitted = true;
+          this.submitted = true;
         })
         .catch(e => {
           console.log(e);
         });//================end====================//
+         this.setActiveProducteur(this.farmer, this.index);
+        // 
     },
-     refreshList() {
-      this.currentClient= null;
-      this.currentProducteur= null;
+    setActiveProducteur(farmer, index){
+       this.currentProducteur= this.farmer;
+      this.currentIndexp = index;
+    },
+    //  refreshList() {
+    //   this.currentClient= null;
+    //   this.currentProducteur= null;
        
-    },
+    // },
 
         //================client===============//
         saveClient() {
@@ -439,25 +449,33 @@ export default {
       ClientDataService.create(data)
         .then(response => {
           this.client.id = response.data.id;
-           this.currentClient.id = response.data.id;
+          //  this.currentClient.id = response.data.id;
           console.log(response.data);
-          // this.submitted = true;
+          this.submitted = true;
         })
         .catch(e => {
           console.log(e);
         });
+        this.setActiveClient(this.Client, this.index);
         
     },
-    
+    setActiveClient(client, index){
+      this.currentClient= this.client;
+      this.currentIndex = index;
+    },
     newClient() {
       // this.submitted = false;
-      this.client = {};
+      this.client = this.currentClient;
     },
 
      newFarmer() {
       // this.submitted = false;
-      this.farmer = {};
-    }
+      this.farmer =  this.currentProducteur;
+    },
+    mounted() {
+    this.client = {};
+    this.farmer = {};
+  }
   }
 };
 </script>

@@ -37,10 +37,10 @@
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
           <li class="nav-item">
-          <router-link :href="'/userc' + currentClient.id" class="nav-link">
+          <a :href="'/userc' + currentClient.id" class="nav-link">
             <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
-          </router-link>
+            {{ currentClient.nom }}
+          </a>
         </li>
           <li class="nav-item">
           <!-- <router-link v-if="currentUser" :href="'/userc' + currentClient.id" class="nav-link">User</router-link> -->

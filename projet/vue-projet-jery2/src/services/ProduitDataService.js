@@ -28,11 +28,11 @@ class ProduitDataService {
   findByNom(nom) {
     return http.get(`/produits?nom=${nom}`);
   }
-  findAllPublished() {
-    return http.get(`/produits?published:{{true}}`);
+  myProd(id) {
+    return http.get(`/produits/myprod/${id}`);
   }
-  findAllUnPublished() {
-    return http.get(`/produits?published=0`);
+  findAllPublished() {
+    return http.get(`/produits/published`);
   }
 }
 

@@ -12,22 +12,6 @@
         <ul>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
           <li><a class="nav-link scrollto " href="#produits">Produits</a></li>
-          <!-- <li>
-             <div class="navbar-item shopping-cart" @click="showCheckoutModal">
-            <span class="icon">
-              <i class="fa fa-shopping-cart"></i>
-            </span>
-            <span :class="[numProductsAdded > 0 ? 'tag is-info' : '']">{{ numProductsAdded }}</span>
-          </div>
-          </li> -->
-          <!-- <li class="dropdown"><a href="#"><span>Options</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              
-              <li><a href="/home">Déconnexion</a></li>
-              <li><a href="#">Autre</a></li>
-            </ul>
-          </li> -->
-
           <li class="dropdown"><a href="#"><span>Langue</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Fr</a></li>
@@ -35,10 +19,7 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          
           <li class="nav-item">
-          <router-link v-if="currentUser" to="/userc" class="nav-link">User</router-link>
-        </li> <li class="nav-item">
           <a class="nav-link" href @click.prevent="logOut">
             <font-awesome-icon icon="sign-out-alt" />Déconnexion
           </a>
@@ -79,7 +60,7 @@
 
 
   <form>
-    <div v-if="!submitted">
+    <!-- <div v-if="!submitted"> -->
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h4 class="title">Modifiez votre Profile</h4>
@@ -91,59 +72,66 @@
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Email Address</label>
-              <md-input v-model="client.email" type="email"></md-input>
+              <md-input v-model="currentClient.email" type="email"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Password</label>
-              <md-input v-model="client.mdp" type="password"></md-input>
+              <md-input v-model="currentClient.mdp" type="password"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field>
               <label>Nom</label>
-              <md-input v-model="client.nom" type="text"></md-input>
+              <md-input v-model="currentClient.nom" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field>
               <label>Prénom</label>
-              <md-input v-model="client.prenom" type="text"></md-input>
+              <md-input v-model="currentClient.prenom" type="text"></md-input>
             </md-field>
           </div>
-         
-          <!-- <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Adress</label>
-              <md-input v-model="client.address" type="text"></md-input>
-            </md-field>
-          </div> -->
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Ville</label>
-              <md-input v-model="client.ville" type="text"></md-input>
+              <md-input v-model="currentClient.ville" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Télephone</label>
-              <md-input v-model="client.telephone" type="number"></md-input>
+              <md-input v-model="currentClient.telephone" type="number"></md-input>
             </md-field>
           </div>      
           <div class="md-layout-item md-size-100 text-right">
-            <md-button @click="saveClient" class="md-raised md-success">Modifier</md-button>
+            <md-button  class="md-raised md-success" :to="'/client/' + currentClient.id">Annuler</md-button>
+            <md-button @click="updateClient" class="md-raised md-success" data-toggle="modal"  data-target="#cOK" >Modifier</md-button>
+           <div class="modal fade" id="cOK" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                         <div class="modal-content">
+                              <div class="modal-header">
+                                     <h5 class="modal-title" id="regisProd" color="black">Validation !</h5>
+                                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> -->
+                               </div>
+                               <div class="modal-body">
+
+                                   <h4> Votre profil a été modifié avec succès! </h4>
+            
+                                </div>
+                                <div class="modal-footer">
+                                   <md-button class="md-info" :href="'/client/' + currentClient.id" >OK</md-button>                
+                                </div>
+                          </div>
+                  </div>
+           </div>
           </div>
          
         </div>
       </md-card-content>
     </md-card>
-    </div>
-     
-        <div v-else>
-      <h4>Votre profil a été modifier avec succès</h4>
-      <md-button class="btn btn-success" @click="newClient">Add</md-button>
-    </div>
+    <!-- </div> -->
   </form>
 
       <!-- ======= Footer ======= -->
@@ -213,54 +201,42 @@ export default {
   },
   data() {
     return {
-      client: {
-        id: null,
-        nom: "",
-        prenom: "",
-        email: "",
-        mdp:"",
-        experience:"",
-        ville:"",
-        telephone:"",
-      },
-      submitted: false
+      currentClient:null,
+
     };
 
   },
   methods: {
-       logOut() {
-    //   this.$store.dispatch('auth/logout');
-      this.$router.push('/home');
-    },
-    saveClient() {
-      var data = {
-        nom:this.client.nom,
-        prenom: this.client.prenom,
-        username: this.client.username,
-        email: this.client.email,
-        mdp:this.client.mdp,
-        experience:this.client.experience,
-        ville:this.client.ville,
-        telephone:this.client.telephone,
-        
-           };
-
-      ClientDataService.update(data)
+     getClient(id) {
+      ClientDataService.get(id)
         .then(response => {
-          this.client.id = response.data.id;
+          this.currentClient = response.data;
           console.log(response.data);
-          this.submitted = true;
         })
         .catch(e => {
           console.log(e);
         });
-        
     },
-    
-    newClient() {
-      this.submitted = false;
-      this.client = {};
-    }
+       logOut() {
+    //   this.$store.dispatch('auth/logout');
+      this.$router.push('/home');
+    },
+    updateClient() {
+   
+      ClientDataService.update(this.currentClient.id, this.currentClient)
+        .then(response => {
+          console.log(response.data);
+          this.message = 'Votre profil a été modifié avec succès!';
+        })
+        .catch(e => {
+          console.log(e);
+        });
+       
+    },
+    },
+  mounted() {
+    this.getClient(this.$route.params.id);
+  
   }
 };
 </script>

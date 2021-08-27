@@ -92,6 +92,15 @@ const routes = [
     ]
   
   },
+
+
+
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import(/* webpackChunkName: "about" */ '../views/test.vue')
+  },
+
   {
     path: '/login',
     name: 'Login',
@@ -107,7 +116,7 @@ const routes = [
 
   //////////////////pour les clients 
   {
-    path: '/client',
+    path: '/client/:id',
     name: 'index',
    
     component: () => import('../pages/utilisateur/Accueil.client.vue')
@@ -129,28 +138,33 @@ const routes = [
       //   name: "Dashboard-producteur",
       //   component: () => import('@/pages/DashboardProd.vue')
       //  },
+      //  {
+      //   path: '/addProduct/:id',
+      //   name: 'Entrez les informations sur votre produit',
+      //   component: () => import('@/pages/utilisateur/AddProduct.vue')
+      //  },
        {
-        path: '/addProduct',
-        name: 'Entrez les informations sur votre produit',
-        component: () => import('@/pages/utilisateur/AddProduct.vue')
-       },
-       {
-        path: '/dashboard-producteur',
+        path: '/dashboard-producteur/:id',
         name: 'Dashboard-producteur',
         component: () => import('../pages/DashboardProd.vue')
        },
        {
-        path: '/create-product',
+        path: '/create-product/:id',
         name: 'Info sur le produit',
         component: () => import('@/pages/CreateProduct.vue')
        },
        {
-        path: '/profil',
+        path: '/maps/:id',
+        name: 'Nos locaux',
+        component: () => import('@/pages/Mapps.vue')
+       },
+       {
+        path: '/profil/:id',
         name: 'Profil d\'utilisateur',
         component: () => import('@/pages/UserProfil.vue')
        },
        {
-        path: '/commandes',
+        path: '/commandes/:id',
         name: 'Commandes sur vos produits',
         component: () => import('@/pages/NotificationProd.vue')
        },
@@ -165,10 +179,21 @@ const routes = [
    
    /**================================================
     *                                                *
-    *                    produit                     *
+    *                    client                     *
     *                                                *
     * ===============================================*
     */
+
+   {
+    path: "/modifierc/:id",
+    name: "modifierc",
+    component: () => import("../pages/utilisateur/modifierc")
+  },
+  {
+    path: "/userc/:id",
+    name: "client",
+    component: () => import("../pages/utilisateur/client")
+  },
   //  {
   //   path: '/inventory',
   //   component: ProductList

@@ -191,7 +191,7 @@
           </md-card-content>
         </md-card>
       </div>
-      <div
+      <!-- <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
       >
         <nav-tabs-card>
@@ -212,7 +212,7 @@
             </md-tabs>
           </template>
         </nav-tabs-card>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -221,8 +221,8 @@
 import {
   // StatsCard,
   ChartCard,
-  NavTabsCard,
-  NavTabsTable,
+  // NavTabsCard,
+  // NavTabsTable,
   SimpleTable,
   OrderedTable
 } from "@/components";
@@ -231,8 +231,8 @@ export default {
   components: {
     // StatsCard,
     ChartCard,
-    NavTabsCard,
-    NavTabsTable,
+    // NavTabsCard,
+    // NavTabsTable,
     SimpleTable,
     OrderedTable
   },
@@ -283,7 +283,7 @@ export default {
             "Ja",
             "Fe",
             "Ma",
-            "Ap",
+            "Av",
             "Mai",
             "Ju",
             "Jul",
@@ -293,7 +293,7 @@ export default {
             "No",
             "De"
           ],
-          series: [[0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0]]
+          series: [[0, 0, 0, 0, 0, 0, 6, 1, 0, 0, 0, 0]]
         },
         options: {
           axisX: {

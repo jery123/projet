@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
+  <div v-if="currentProducteur" class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
     <notifications></notifications>
 
     <side-bar
@@ -7,15 +7,15 @@
       :sidebar-background-image="sidebarBackgroundImage"
     >
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/Dashboard-producteur">
+      <sidebar-link :to="'/dashboard-producteur/' + currentProducteur.id">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
-      <sidebar-link to="/profil">
+      <sidebar-link :to="'/profil/' + currentProducteur.id">
         <md-icon>person</md-icon>
         <p>Profile</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/table">
+      <!-- <sidebar-link to="/table/ + currentProducteur.id">
         <md-icon>content_paste</md-icon>
         <p>Liste des utilisateurs</p>
       </sidebar-link> -->
@@ -25,7 +25,7 @@
         <p>Mes produits</p>
       </sidebar-link> -->
 
-<sidebar-link to="/create-product">
+<sidebar-link :to="'/create-product/' + currentProducteur.id">
         <md-icon>content_paste</md-icon>
         <p>Nouveau produit</p>
       </sidebar-link>
@@ -34,22 +34,22 @@
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
       </sidebar-link> -->
-      <sidebar-link to="/maps">
+      <sidebar-link :to="'/maps/' + currentProducteur.id">
         <md-icon>location_on</md-icon>
         <p>Nos locaux</p>
       </sidebar-link>
-      <sidebar-link to="/commandes">
+      <sidebar-link :to="'/commandes/' + currentProducteur.id">
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/upgrade" class="active-pro">
+      <sidebar-link :to="'/upgradep/' + currentProducteur.id" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Version recente</p>
-      </sidebar-link> -->
+      </sidebar-link>
     </side-bar>
 
     <div class="main-panel">
-      <top-navbar></top-navbar>
+      <TopNavbarp></TopNavbarp>
 
       <fixed-plugin
         :color.sync="sidebarBackground"
@@ -65,15 +65,16 @@
 </template>
 
 <script>
-import TopNavbar from "./TopNavbar.vue";
+import TopNavbarp from "./TopNavbarp.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
 import FixedPlugin from "./Extra/FixedPlugin.vue";
+import FarmerDataService from "../../services/FarmerDataService";
 
 export default {
   components: {
-    TopNavbar,
+    TopNavbarp,
     DashboardContent,
     ContentFooter,
     MobileMenu,
@@ -82,9 +83,29 @@ export default {
   data() {
     return {
       sidebarBackground: "green",
-      sidebarBackgroundImage: require("@/assets/img/sidebar-2.jpg")
+      sidebarBackgroundImage: require("@/assets/img/sidebar-2.jpg"),
+      currentProducteur:null,
     };
+  }, methods: {
+    getFarmer(id) {
+      FarmerDataService.get(id)
+        .then(response => {
+          this.currentProducteur = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+      logOut() {
+      // this.$store.dispatch('auth/logout');
+      this.$router.push('/home');
+    },
+   },
+   mounted() {
+    this.getFarmer(this.$route.params.id);
   }
+
 };
 </script>
 

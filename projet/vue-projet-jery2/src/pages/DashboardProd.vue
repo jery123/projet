@@ -1,17 +1,21 @@
 <template>
    
 
-  <div>
-    <!-- <v-col cols="12" md="8">
+  <div v-if="currentProducteur">
+     <div>
+       <v-row >
+    <v-col cols="12" md="7">
       <v-text-field v-model="nom" label="Search by Name"></v-text-field>
     </v-col>
-
+<!-- </div> 
+<div class="md-layout-item md-small-size-100 md-size-50"> -->
     <v-col cols="12" md="4">
       <v-btn small @click="searchNom">
         Search
       </v-btn>
-    </v-col> -->
-
+    </v-col>
+    </v-row >
+</div> 
        <md-card> <div class="list row">
        
          <md-card-header data-background-color="green">
@@ -56,12 +60,13 @@
              </md-card-content>
     </div>
    </md-card> 
- <md-button type="button"  class="md-success" :href="'/create-product'">Ajouter un produit </md-button>
+ <md-button type="button"  class="md-success" :href="'/create-product/' + currentProducteur.id">Ajouter un produit </md-button>
     </div>
 <!--===============END Vos produits ================-->    
 </template>
 
 <script>
+import FarmerDataService from "../services/FarmerDataService";
 import ProduitDataService from '../services/ProduitDataService';
 import 'bootstrap/dist/css/bootstrap.min.css'
   export default {
@@ -69,28 +74,39 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         data() {
     return {
      produits: [],
+     currentProducteur:null,
       nom: "",
        headers: [
         { text: "Nom", align: "start", sortable: false, value: "nom" },
         { text: "Description", value: "description", sortable: false },
-       { text: "Status", value: "status", sortable: false },
+        { text: "Status", value: "status", sortable: false },
        { text: "Actions", value: "actions", sortable: false },
       ],
     };
 
   },
   methods: {
-
+  getFarmer(id) {
+      FarmerDataService.get(id)
+        .then(response => {
+          this.currentProducteur = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }, 
  retrieveProduits() {
       ProduitDataService.getAll()
         .then(response => {
-          // this.produits = response.data.map(this.getDisplayProduit);
-           this.produits = response.data;
+          this.produits = response.data.map(this.getDisplayProduit);
+          //  this.produits = response.data;
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
+        // this.getDisplayProduit(this.produits)
     },
  refreshList() {
       this.retrieveProduits();
@@ -108,7 +124,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
     searchNom() {
       ProduitDataService.findByNom(this.nom)
         .then(response => {
-          this.produits = response.data;
+          this.produits = response.data.map(this.getDisplayProduit);
           console.log(response.data);
         })
         .catch(e => {
@@ -127,7 +143,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         .catch((e) => {
           console.log(e);
         });
-    },
   },
   
     getDisplayProduit(produit) {
@@ -135,11 +150,22 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         id: produit.id,
         nom: produit.nom.length > 30 ? produit.nom.substr(0, 30) + "..." : produit.nom,
         description: produit.description.length > 30 ? produit.description.substr(0, 30) + "..." : produit.description,
-        status: produit.published ? "Published" : "Pending",
+        status: produit.published ? "Publier" : "Non Publier",
       };
     },
+ },
    mounted() {
+    this.getFarmer(this.$route.params.id);
     this.retrieveProduits();
+    //  ProduitDataService.myProd(this.$route.params.id)
+    //     .then(response => {
+    //       this.produits = response.data.map(this.getDisplayProduit);
+    //       console.log(response.data);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+
   }
 };
 </script>

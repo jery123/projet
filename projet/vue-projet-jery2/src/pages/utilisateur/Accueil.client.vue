@@ -1,5 +1,5 @@
-<template>
-  <div>
+6<template>
+  <div v-if="currentClient" id="app">
 
 
   <!-- ======= Header ======= -->
@@ -37,12 +37,12 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="https://jangolo.cm/contact">Contact</a></li>
-          <!-- <li class="nav-item">
-          <router-link :href="'/userc' + currentClient.id" class="nav-link">
+          <li class="nav-item">
+          <a :href="'/userc/' + currentClient.id" class="nav-link">
             <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
-          </router-link>
-        </li> -->
+             {{ currentClient.nom }}  {{ currentClient.prenom }}
+          </a>
+        </li>
           <li class="nav-item">
           <!-- <router-link v-if="currentUser" :href="'/userc' + currentClient.id" class="nav-link">User</router-link> -->
         </li> <li class="nav-item">
@@ -145,7 +145,8 @@
 </div> -->
 <div id="produits">
   <div >
-    <h2 id="heade1"> Nos produits</h2>
+    <p> {{ $t('message') }} </p>
+    <h2 id="heade1">Nos produits</h2>
   </div>
 
  
@@ -317,6 +318,7 @@
 
 <script>
 import ProduitDataService from '../../services/ProduitDataService';
+import ClientDataService from '../../services/ClientDataService';
 import 'bootstrap/dist/css/bootstrap.min.css'
   export default {
      props: {
@@ -333,10 +335,21 @@ import 'bootstrap/dist/css/bootstrap.min.css'
       currentIndex: -1,
       nom: "",
        show:false,
+        currentClient: null,
     };
 
   },
   methods: {
+      getClient(id) {
+      ClientDataService.get(id)
+        .then(response => {
+          this.currentClient = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
   logOut() {
       // this.$store.dispatch('auth/logout');
       this.$router.push('/home');
@@ -404,6 +417,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
       };
     },
    mounted() {
+     this.getClient(this.$route.params.id);
     this.retrieveProduits();
   }
 };

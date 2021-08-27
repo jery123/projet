@@ -1,5 +1,5 @@
 <template>
-
+<div v-if="currentProducteur">
   <form>
     <div v-if="!submitted">
     <md-card>
@@ -14,50 +14,50 @@
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Nom d'utilisateur</label>
-              <md-input v-model="farmer.username" type="text"></md-input>
+              <md-input v-model="currentProducteur.userName" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Email Address</label>
-              <md-input v-model="farmer.email" type="email"></md-input>
+              <md-input v-model="currentProducteur.email" type="email"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Password</label>
-              <md-input v-model="farmer.mdp" type="password"></md-input>
+              <md-input v-model="currentProducteur.mdp" type="password"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field>
               <label>Nom</label>
-              <md-input v-model="farmer.nom" type="text"></md-input>
+              <md-input v-model="currentProducteur.nom" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field>
               <label>Prénom</label>
-              <md-input v-model="farmer.prenom" type="text"></md-input>
+              <md-input v-model="currentProducteur.prenom" type="text"></md-input>
             </md-field>
           </div>
          
           <!-- <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
               <label>Adress</label>
-              <md-input v-model="farmer.address" type="text"></md-input>
+              <md-input v-model="currentProducteur.address" type="text"></md-input>
             </md-field>
           </div> -->
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Ville</label>
-              <md-input v-model="farmer.ville" type="text"></md-input>
+              <md-input v-model="currentProducteur.ville" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Télephone</label>
-              <md-input v-model="farmer.telephone" type="number"></md-input>
+              <md-input v-model="currentProducteur.telephone" type="number"></md-input>
             </md-field>
           </div>
           <!-- <div class="md-layout-item md-small-size-100 md-size-33">
@@ -75,11 +75,11 @@
           <div class="md-layout-item md-size-100">
             <md-field maxlength="5">
               <label>Experience</label>
-              <md-textarea v-model="farmer.experience"></md-textarea>
+              <md-textarea v-model="currentProducteur.experience"></md-textarea>
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button @click="saveFarmer" class="md-raised md-success">Modifier</md-button>
+            <md-button @click="updateFarmer" class="md-raised md-success">Modifier</md-button>
           </div>
          
         </div>
@@ -89,10 +89,10 @@
      
         <div v-else>
       <h4>Votre profil a été modifier avec succès</h4>
-      <md-button class="btn btn-success" @click="newFarmer">Add</md-button>
+      <md-button class="btn btn-success" :href="'/profil/' + currentProducteur.id">OK</md-button>
     </div>
   </form>
-
+</div>
 </template>
 <script>
 import FarmerDataService from "../../services/FarmerDataService";
@@ -107,54 +107,38 @@ export default {
   },
   data() {
     return {
-      farmer: {
-        id: null,
-        nom: "",
-        prenom: "",
-        username: "",
-        email: "",
-        mdp:"",
-        experience:"",
-        ville:"",
-        telephone:"",
-        is_delete: false,
-        role: false
-      },
+     currentProducteur: null,
       submitted: false
     };
 
   },
   methods: {
-    saveFarmer() {
-      var data = {
-         nom:this.farmer.nom,
-        prenom: this.farmer.prenom,
-        username: this.farmer.username,
-        email: this.farmer.email,
-        mdp:this.farmer.mdp,
-        experience:this.farmer.experience,
-        ville:this.farmer.ville,
-        telephone:this.farmer.telephone,
-        role:true,
-        
-           };
-
-      FarmerDataService.create(data)
+     getFarmer(id) {
+      FarmerDataService.get(id)
         .then(response => {
-          this.farmer.id = response.data.id;
+          this.currentProducteur = response.data;
           console.log(response.data);
-          this.submitted = true;
         })
         .catch(e => {
           console.log(e);
         });
-        
     },
-    
-    newFarmer() {
-      this.submitted = false;
-      this.farmer = {};
-    }
+ 
+    updateFarmer() {
+     FarmerDataService.update(this.currentProducteur.id, this.currentProducteur)
+        .then(response => {
+          console.log(response.data);
+          this.message = 'Votre profil a été modifié avec succès!';
+         this.submitted = true;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+  },
+   mounted() {
+    this.getFarmer(this.$route.params.id);
+     this.submitted = false;
   }
 };
 </script>

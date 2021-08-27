@@ -25,7 +25,8 @@ Vue.use(MdTabs)
 
 
 //login
-
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 import store from './store';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -61,7 +62,7 @@ import Notifications from "./components/NotificationPlugin";
 import MaterialDashboard from "./material-dashboard";
 
 import Chartist from "chartist";
-
+import i18n from './plugins/i18n'
 // configure router
 // const router = new VueRouter({
 //   routes, // short for routes: routes
@@ -107,7 +108,7 @@ Vue.component('b-icon', BIcon)
 
 // import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import i18n from './plugins/i18n'
+
 
 Vue.config.productionTip = false
 

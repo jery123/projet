@@ -1,4 +1,5 @@
 <template>
+<div v-if="currentProducteur">
   <form>
       <div v-if="!submitted">
     <md-card>
@@ -12,20 +13,20 @@
          <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
                  <label>Nom</label>
-                 <md-input v-model="produit.nom" type="text" :rules="[(v) => !!v || 'Title is required']"></md-input>
+                 <md-input v-model="produit.nom"  v-validate="'required'" type="text" :rules="[(v) => !!v || 'Title is required']"></md-input>
                </md-field>
             </div>
                                                                                                              
               <div class="md-layout-item md-small-size-100 md-size-50">
                 <md-field>
                   <label>Quantité</label>
-                  <md-input v-model="produit.quantité" type="number" :rules="[(v) => !!v || 'Unité de mesure is required']"></md-input>
+                  <md-input v-model="produit.quantité"  v-validate="'required'" type="number" :rules="[(v) => !!v || 'Unité de mesure is required']"></md-input>
                 </md-field>
               </div> 
               <div class="md-layout-item md-small-size-100 md-size-50">
                 <md-field>
                   <label>Prix Unitaire</label>
-                  <md-input v-model="produit.prixUnitaire" type="number" :rules="[(v) => !!v || 'Unité de mesure is required']"></md-input>
+                  <md-input v-model="produit.prixUnitaire"  v-validate="'required'" type="number" :rules="[(v) => !!v || 'Unité de mesure is required']"></md-input>
                 </md-field>
               </div> 
                 <div class="md-layout-item md-small-size-100 md-size-50">
@@ -72,7 +73,7 @@
 
 
           <div class="md-layout-item md-size-100 text-right">
-            <md-button   class="md-danger md-round" :href="'/dashboard-producteur'">Annuler </md-button>
+            <md-button   class="md-danger md-round" :href="'/dashboard-producteur/' + currentProducteur.id">Annuler </md-button>
               <md-button  @click="saveProduit" class="md-success md-round">Ajouter</md-button>
           </div>
         </div>
@@ -81,7 +82,7 @@
       </div>
         <div v-else>
       <h4>Votre produit a été crée avec succès </h4>
-      <md-button class="btn btn-success" @click="newProduit"  data-toggle="modal" data-target="#modal">Add</md-button>
+      <md-button class="btn btn-success" @click="newProduit"  data-toggle="modal" data-target="#modal">OK</md-button>
 <!-- <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#modal">Cliquez pour ouvrir le modal</button> -->
 
       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -102,7 +103,7 @@
             <div class="md-layout-item md-size-100">
               <div class="places-buttons text-center">
                 <md-button class="md-danger" :href="'/create-product'">Oui</md-button>
-                <md-button class="md-success"  to="/dashboard-producteur">Non</md-button> 
+                <md-button class="md-success"  :href="'/dashboard-producteur/' + currentProducteur.id">Non</md-button> 
               </div>
             </div>
           </div>
@@ -117,11 +118,12 @@
 
     </div>
   </form>
+  </div>
 </template>
 <script>
 import ProduitDataService from "../services/ProduitDataService";
 import UploadService from "../services/UploadFilesService";
-
+import FarmerDataService from "../services/FarmerDataService";
 export default {
   name: "edit-profil-prod",
   props: {
@@ -133,6 +135,7 @@ export default {
    
   data() {
     return {
+       currentProducteur:null,
       produit: {
         id:null,
         prodId:"",
@@ -145,6 +148,7 @@ export default {
         uniteDeMesure:""
         // uniteDeMesure: ['Kg','Litre','Cageot', 'Sacs'],
       },
+     
         currentProduit: null,
               imageInfos: [],
        submitted: false
@@ -152,6 +156,16 @@ export default {
 
     },
      methods: {
+        getFarmer(id) {
+      FarmerDataService.get(id)
+        .then(response => {
+          this.currentProducteur = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
         selectImage() {
       this.currentImage = this.$refs.file.files.item(0);
       // this.produit.image=this.currentImage.split('.').slice(0, -1).join('.');
@@ -172,7 +186,7 @@ export default {
     },
     saveProduit() {
       var data = {
-        // prodId=this.get(farmer.Id),
+        prodId: this.currentProducteur.id,
         image:this.produit.image,
         nom:this.produit.nom,
         description: this.produit.description,
@@ -198,6 +212,9 @@ export default {
       this.submitted = false;
       this.produit = {};
     }
+  },
+  mounted() {
+    this.getFarmer(this.$route.params.id);
   }
 };
 </script>

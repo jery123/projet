@@ -29,8 +29,8 @@
                 </div> 
                   <div class="md-layout-item md-small-size-100 md-size-50">
                   <md-field>
-                         <label for="movie">Unité de mesure</label>
-           <md-select v-model="currentProduit.uniteDeMesure" name="movie" id="movie">
+                         <label for="currentProduit.uniteDeMesure">Unité de mesure</label>
+           <md-select v-model="currentProduit.uniteDeMesure" name="currentProduit.uniteDeMesure" id="currentProduit.uniteDeMesure">
              <md-option value="kg">Kg</md-option>
              <md-option value="litre">Litre</md-option>
              <md-option value="cageot">Cageot</md-option>
@@ -40,9 +40,9 @@
                   </div> 
                 
                 <div class="md-layout-item md-small-size-100 md-size-50">
+                    <label><strong>Statut:</strong></label>
                   <md-field>
-                   <label><strong>Status:</strong></label>
-                     {{ currentProduit.published ? "Published" : "Pending" }}
+                        {{ currentProduit.published ? "Publier" : "Non Publier" }}
                      </md-field>
                 </div>
              </div>
@@ -77,7 +77,7 @@
   </div>
   <div v-else>
     <br />
-    <p>Please click on a Produit...</p>
+    <p>Veuillez cliquer sur un produit...</p>
   </div>
 </template>
 
@@ -88,6 +88,7 @@ export default {
   name: "produit",
   data() {
     return {
+      
       currentProduit: null,
       message: ''
     };
